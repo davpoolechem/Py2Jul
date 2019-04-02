@@ -9,7 +9,7 @@ Convert your Python programs into Julia programs to gain the extra performance t
 # Usage
 Run the command 
 
-'julia py2jul path/to/python/file'
+'julia py2jul.jl path/to/python/file'
 
 This converts file.py to file.jl. Note that this does not yet yield a complete file, as explained below.
 
