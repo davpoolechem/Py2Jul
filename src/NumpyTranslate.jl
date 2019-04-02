@@ -50,7 +50,12 @@ function translate_matrix_make(file::Array{String,1})
 
             number_start::Int64 = findnext(",",file[i],esec)[1]+1
             number_end::Int64= findnext(")",file[i],number_start)[1]-1
-            number::Float64 = parse(Float64,file[i][number_start:number_end])
+
+            number_type::DataType = Int64
+            if (occursin(".",file[i][number_start:number_end]))
+                number_type = Float64
+            end
+            number::number_type = parse(number_type,file[i][number_start:number_end])
 
             file[i] = replace(file[i],r"numpy.full(.*)" => "fill($number,$dims)")
         end

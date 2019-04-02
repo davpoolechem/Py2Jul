@@ -1,6 +1,5 @@
 import numpy
 import scipy
 
-a = numpy.full((3,3),7.0)
+a = numpy.full((30,30),7)
 print(a)
-
