@@ -1,78 +1,85 @@
 module NumpyTranslate
 
-function translate_array(file_array::Array{String,1})
-    for i in 1:length(file_array)
-        if (occursin(r"\[.*\],",file_array[i]))
-            file_array[i] = replace(file_array[i],"]," => "];")
-            file_array[i] = replace(file_array[i],"," => " ")
+function translate_array(file::Array{String,1})
+    for i in 1:length(file)
+        if (occursin(r"\[.*\],",file[i]))
+            file[i] = replace(file[i],"]," => "];")
+            file[i] = replace(file[i],"," => " ")
 
-            file_array[i] = replace(file_array[i],"[" => "")
-            file_array[i] = replace(file_array[i],"]" => "")
+            file[i] = replace(file[i],"[" => "")
+            file[i] = replace(file[i],"]" => "")
 
-            file_array[i] = replace(file_array[i],"numpy.array(" => "            [")
-            file_array[i] = replace(file_array[i],")" => "]")
+            file[i] = replace(file[i],"numpy.array(" => "            [")
+            file[i] = replace(file[i],")" => "]")
         end
 
-        if (occursin(r"\[.*\]\]",file_array[i]))
-            file_array[i] = replace(file_array[i],"," => " ")
+        if (occursin(r"\[.*\]\]",file[i]))
+            file[i] = replace(file[i],"," => " ")
 
-            file_array[i] = replace(file_array[i],"[" => "")
-            file_array[i] = replace(file_array[i],"]]" => "]")
+            file[i] = replace(file[i],"[" => "")
+            file[i] = replace(file[i],"]]" => "]")
 
-            file_array[i] = replace(file_array[i],")" => "")
-        end
-    end
-end
-
-function translate_zeros_ones(file_array::Array{String,1})
-    for i in 1:length(file_array)
-        if (occursin("numpy.zeros",file_array[i]))
-            file_array[i] = replace(file_array[i],"numpy.zeros" => "zeros")
-            file_array[i] = replace(file_array[i],"((" => "(")
-            file_array[i] = replace(file_array[i],"))" => ")")
-        end
-
-        if (occursin("numpy.ones",file_array[i]))
-            file_array[i] = replace(file_array[i],"numpy.ones" => "ones")
-            file_array[i] = replace(file_array[i],"((" => "(")
-            file_array[i] = replace(file_array[i],"))" => ")")
+            file[i] = replace(file[i],")" => "")
         end
     end
 end
 
-function translate_numpy_functions(file_array::Array{String,1})
-    for i in 1:length(file_array)
+function translate_matrix_make(file::Array{String,1})
+    for i in 1:length(file)
+        if (occursin("numpy.zeros",file[i]))
+            file[i] = replace(file[i],"numpy.zeros" => "zeros")
+            file[i] = replace(file[i],"((" => "(")
+            file[i] = replace(file[i],"))" => ")")
+        end
+
+        if (occursin("numpy.ones",file[i]))
+            file[i] = replace(file[i],"numpy.ones" => "ones")
+            file[i] = replace(file[i],"((" => "(")
+            file[i] = replace(file[i],"))" => ")")
+        end
+
+        if (occursin("numpy.full(.*,.*)",file[i]))
+            dim_first_start::Int64 = findfirst("(",file[1])
+            file[i] = replace(file[i],"numpy.ones" => "ones")
+            file[i] = replace(file[i],"((" => "(")
+            file[i] = replace(file[i],"))" => ")")
+        end
+    end
+end
+
+function translate_numpy_functions(file::Array{String,1})
+    for i in 1:length(file)
         #numpy.dot
-        if (occursin("numpy.dot",file_array[i]))
-            file_array[i] = replace(file_array[i],"numpy.dot" => "LinearAlgebra.dot")
+        if (occursin("numpy.dot",file[i]))
+            file[i] = replace(file[i],"numpy.dot" => "LinearAlgebra.dot")
         end
 
         #numpy.transpose
-        if (occursin("numpy.transpose",file_array[i]))
-            file_array[i] = replace(file_array[i],"numpy.transpose" => "transpose")
+        if (occursin("numpy.transpose",file[i]))
+            file[i] = replace(file[i],"numpy.transpose" => "transpose")
         end
     end
 end
 
-function translate_linalg_functions(file_array::Array{String,1})
-    for i in 1:length(file_array)
+function translate_linalg_functions(file::Array{String,1})
+    for i in 1:length(file)
 
         #numpy.linalg.inv
-        if (occursin("linalg.inv",file_array[i]))
-            file_array[i] = replace(file_array[i],"linalg.inv" => "LinearAlgebra.inv")
+        if (occursin("linalg.inv",file[i]))
+            file[i] = replace(file[i],"linalg.inv" => "LinearAlgebra.inv")
 
-            if (occursin("numpy.",file_array[i]))
-                file_array[i] = replace(file_array[i],"numpy." => "")
+            if (occursin("numpy.",file[i]))
+                file[i] = replace(file[i],"numpy." => "")
             end
         end
     end
 end
 
-function run(file_array::Array{String,1})
-    translate_array(file_array)
-    translate_zeros_ones(file_array)
-    translate_numpy_functions(file_array)
-    translate_linalg_functions(file_array)
+function run(file::Array{String,1})
+    translate_array(file)
+    translate_matrix_make(file)
+    translate_numpy_functions(file)
+    translate_linalg_functions(file)
 end
 export run
 

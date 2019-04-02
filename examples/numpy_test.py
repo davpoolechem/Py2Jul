@@ -1,10 +1,6 @@
 import numpy
 import scipy
-from scipy import linalg
 
-a = numpy.ones((3,3))
+a = numpy.full((3,3),7.0)
 print(a)
 
-b = scipy.linalg.sqrtm(a)
-
-print(b) 

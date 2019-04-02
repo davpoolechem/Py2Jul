@@ -12,26 +12,26 @@ function run(filename::String)
 
     #copy python file to julia array object for manipulation
     f_py::IOStream = open(filename*".py")
-        file_array::Array{String,1} = readlines(f_py)
+        file::Array{String,1} = readlines(f_py)
     close(f_py)
 
     #do basic changes
-    BasicWork.run(file_array)
+    BasicWork.run(file)
 
     #handle control flow constructs
-    ControlFlow.run(file_array)
+    ControlFlow.run(file)
 
     #handle work involving module imports
-    ModuleWork.run(file_array)
+    ModuleWork.run(file)
 
     #translate scientific module constructs to julia constructs
-    NumpyTranslate.run(file_array)
-    ScipyTranslate.run(file_array)
+    NumpyTranslate.run(file)
+    ScipyTranslate.run(file)
 
     #final copy
     f_jl::IOStream = open(filename*".jl","w")
-        for i in 1:length(file_array)
-            write(f_jl,file_array[i]*"\n")
+        for i in 1:length(file)
+            write(f_jl,file[i]*"\n")
         end
     close(f_jl)
 end

@@ -1,47 +1,47 @@
 module ControlFlow
 
 #fix up issues with for loops
-function for_loops(file_array::Array{String,1})
-    for i in 1:length(file_array)
-        if (occursin(r"range(.*,.*)",file_array[i]) || occursin(r"range(.*,.*,.*)",file_array[i]))
-            file_array[i] = replace(file_array[i],"range(" => "")
-            file_array[i] = replace(file_array[i],"," => ":")
-            file_array[i] = replace(file_array[i],")" => "")
+function for_loops(file::Array{String,1})
+    for i in 1:length(file)
+        if (occursin(r"range(.*,.*)",file[i]) || occursin(r"range(.*,.*,.*)",file[i]))
+            file[i] = replace(file[i],"range(" => "")
+            file[i] = replace(file[i],"," => ":")
+            file[i] = replace(file[i],")" => "")
         end
     end
 end
 
 #fix up issues with if loops
-function if_loops(file_array::Array{String,1})
-    for i in 1:length(file_array)
-        file_array[i] = replace(file_array[i],"elif" => "elseif")
-        if (occursin("if ",file_array[i]))
-            file_array[i] = replace(file_array[i],"if " => "if (")
-            file_array[i] = file_array[i]*")"
+function if_loops(file::Array{String,1})
+    for i in 1:length(file)
+        file[i] = replace(file[i],"elif" => "elseif")
+        if (occursin("if ",file[i]))
+            file[i] = replace(file[i],"if " => "if (")
+            file[i] = file[i]*")"
 
-            file_array[i] = replace(file_array[i],"and " => "&&")
-            file_array[i] = replace(file_array[i],"or" => "||")
+            file[i] = replace(file[i],"and " => "&&")
+            file[i] = replace(file[i],"or" => "||")
         end
     end
 end
 
 #fix up issues with while loops
-function while_loops(file_array::Array{String,1})
-    for i in 1:length(file_array)
-        if (occursin("while ",file_array[i]))
-            file_array[i] = replace(file_array[i],"while " => "while (")
-            file_array[i] = file_array[i]*")"
+function while_loops(file::Array{String,1})
+    for i in 1:length(file)
+        if (occursin("while ",file[i]))
+            file[i] = replace(file[i],"while " => "while (")
+            file[i] = file[i]*")"
 
-            file_array[i] = replace(file_array[i],"and " => "&&")
-            file_array[i] = replace(file_array[i],"or" => "||")
+            file[i] = replace(file[i],"and " => "&&")
+            file[i] = replace(file[i],"or" => "||")
         end
     end
 end
 
-function run(file_array::Array{String,1})
-    for_loops(file_array)
-    if_loops(file_array)
-    while_loops(file_array)
+function run(file::Array{String,1})
+    for_loops(file)
+    if_loops(file)
+    while_loops(file)
 end
 export run
 
