@@ -4,7 +4,21 @@ module ModuleWork
 function module_imports(file_array::Array{String,1})
     for i in 1:length(file_array)
         if (occursin("import numpy",file_array[i]))
-            file_array[i] = replace(file_array[i],"import numpy" => "import LinearAlgebra")
+            for i in 1:length(file_array)
+                if (!occursin("import LinearAlgebra",file_array[i]))
+                    file_array[i] = replace(file_array[i],"import numpy" => "import LinearAlgebra")
+                else
+                    file_array[i] = replace(file_array[i],"import numpy" => "")
+                end
+            end
+        elseif (occursin("import scipy",file_array[i]))
+            for i in 1:length(file_array)
+                if (!occursin("import scipy",file_array[i]))
+                    file_array[i] = replace(file_array[i],"import scipy" => "import LinearAlgebra")
+                else
+                    file_array[i] = replace(file_array[i],"import scipy" => "")
+                end
+            end
         elseif (occursin("import ",file_array[i]))
             file_array[i] = replace(file_array[i],"import " => "PyCall.pyimport(\"")
             file_array[i] = file_array[i]*"\")"

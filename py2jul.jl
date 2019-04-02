@@ -6,6 +6,7 @@ using Main.ControlFlow
 using Main.ModuleWork
 using Main.BasicWork
 using Main.NumpyTranslate
+using Main.ScipyTranslate
 
 function run(filename::String)
 
@@ -20,8 +21,9 @@ function run(filename::String)
     #handle control flow constructs
     ControlFlow.run(file_array)
 
-    #translate numpy constructs to julia constructs
+    #translate scientific module constructs to julia constructs
     NumpyTranslate.run(file_array)
+    ScipyTranslate.run(file_array)
 
     #handle work involving module imports
     ModuleWork.run(file_array)

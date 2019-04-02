@@ -54,10 +54,25 @@ function translate_numpy_functions(file_array::Array{String,1})
     end
 end
 
+function translate_linalg_functions(file_array::Array{String,1})
+    for i in 1:length(file_array)
+
+        #numpy.linalg.inv
+        if (occursin("linalg.inv",file_array[i]))
+            file_array[i] = replace(file_array[i],"linalg.inv" => "LinearAlgebra.inv")
+
+            if (occursin("numpy.",file_array[i]))
+                file_array[i] = replace(file_array[i],"numpy." => "")
+            end
+        end
+    end
+end
+
 function run(file_array::Array{String,1})
     translate_array(file_array)
     translate_zeros_ones(file_array)
     translate_numpy_functions(file_array)
+    translate_linalg_functions(file_array)
 end
 export run
 
