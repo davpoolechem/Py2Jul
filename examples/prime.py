@@ -4,7 +4,7 @@ def is_prime(num):
     if num%2 == 0:
 	prime = False
     else:
-	for denominator in range(3,num,2):
+	for denominator in range(3,num-1,2):
 	    if num%denominator == 0:
 		prime = False
     
