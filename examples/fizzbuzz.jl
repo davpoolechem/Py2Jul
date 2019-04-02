@@ -1,6 +1,3 @@
-import PyCall
-numpy = PyCall.pyimport("numpy")
-
 function fizzbuzz(num)
     for i in 1:num
         if (i%15 == 0)
@@ -11,5 +8,8 @@ function fizzbuzz(num)
 	    println("fizz")
         else
 	    println(i)
+	end
+    end
+end
 
-fizzbuzz(100) 
+fizzbuzz(10000000) 

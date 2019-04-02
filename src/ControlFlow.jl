@@ -3,7 +3,23 @@ module ControlFlow
 #fix up issues with for loops
 function for_loops(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"range(.*,.*)",file[i]) || occursin(r"range(.*,.*,.*)",file[i]))
+        if (occursin(r"range(.*,.*,.*)",file[i]))
+            #swap second and third numbers
+            sfirst::Int64 = findnext("(",file[i],1)[1]+1
+            efirst::Int64 = findnext(",",file[i],sfirst)[1]-1
+
+            ssec::Int64 = findnext(",",file[i],sfirst)[1]+1
+            esec::Int64 = findnext(",",file[i],ssec)[1]-1
+
+            sthird::Int64 = findnext(",",file[i],ssec)[1]+1
+            ethird::Int64 = findnext(")",file[i],sthird)[1]-1
+
+            first::String = file[i][sfirst:efirst]
+            second::String = file[i][ssec:esec]
+            third::String = file[i][sthird:ethird]
+
+            file[i] = replace(file[i], r"range(.*,.*,.*)"=>"$first:$third:$second")
+        elseif (occursin(r"range(.*,.*)",file[i]))
             file[i] = replace(file[i],"range(" => "")
             file[i] = replace(file[i],"," => ":")
             file[i] = replace(file[i],")" => "")
@@ -19,8 +35,8 @@ function if_loops(file::Array{String,1})
             file[i] = replace(file[i],"if " => "if (")
             file[i] = file[i]*")"
 
-            file[i] = replace(file[i],"and " => "&&")
-            file[i] = replace(file[i],"or" => "||")
+            file[i] = replace(file[i]," and " => " && ")
+            file[i] = replace(file[i]," or " => " || ")
         end
     end
 end
@@ -32,8 +48,8 @@ function while_loops(file::Array{String,1})
             file[i] = replace(file[i],"while " => "while (")
             file[i] = file[i]*")"
 
-            file[i] = replace(file[i],"and " => "&&")
-            file[i] = replace(file[i],"or" => "||")
+            file[i] = replace(file[i]," and " => " && ")
+            file[i] = replace(file[i]," or " => " || ")
         end
     end
 end

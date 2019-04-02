@@ -1,5 +1,3 @@
-import numpy
-
 def fizzbuzz(num):
     for i in range(1,num):
         if i%15 == 0:
@@ -11,4 +9,4 @@ def fizzbuzz(num):
         else:
 	    print i
 
-fizzbuzz(100) 
+fizzbuzz(10000000) 
