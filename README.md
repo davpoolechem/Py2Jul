@@ -3,7 +3,9 @@ Convert your Python programs into Julia programs to gain the extra performance t
 
 # Features
 -Convert procedural Python scripts into Julia scripts automatically
+
 -Use of Python modules is handled via PyCall.jl
+
 -NumPy functionalities are converted into Julia functionalities
 
 # Usage
