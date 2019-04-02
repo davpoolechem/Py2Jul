@@ -5,24 +5,24 @@ function module_imports(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("import numpy",file[i]))
             for i in 1:length(file)
-                if (!occursin("import LinearAlgebra",file[i]))
-                    file[i] = replace(file[i],"import numpy" => "import LinearAlgebra")
+                if (!occursin("using LinearAlgebra",file[i]))
+                    file[i] = replace(file[i],"import numpy" => "using LinearAlgebra")
                 else
                     file[i] = replace(file[i],"import numpy" => "")
                 end
             end
         elseif (occursin("import scipy",file[i]))
             for i in 1:length(file)
-                if (!occursin("import scipy",file[i]))
-                    file[i] = replace(file[i],"import scipy" => "import LinearAlgebra")
+                if (!occursin("using LinearAlgebra",file[i]))
+                    file[i] = replace(file[i],"import scipy" => "using LinearAlgebra")
                 else
                     file[i] = replace(file[i],"import scipy" => "")
                 end
             end
         elseif (occursin("import linalg",file[i]))
             for i in 1:length(file)
-                if (!occursin("import linalg",file[i]))
-                    file[i] = replace(file[i],"import linalg" => "import LinearAlgebra")
+                if (!occursin("using LinearAlgebra",file[i]))
+                    file[i] = replace(file[i],"import linalg" => "using LinearAlgebra")
                 else
                     file[i] = replace(file[i],"import linalg" => "")
                 end

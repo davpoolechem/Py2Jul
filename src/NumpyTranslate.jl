@@ -59,6 +59,33 @@ function translate_matrix_make(file::Array{String,1})
 
             file[i] = replace(file[i],r"numpy.full(.*)" => "fill($number,$dims)")
         end
+
+        if (occursin(r"numpy.eye(.*)",file[i]))
+            sfirst = findnext("e",file[i],1)[1]+4
+            testing = findnext(",",file[i],sfirst)
+
+            efirst = 0
+            if (testing == nothing)
+                efirst = findnext(")",file[i],sfirst)[1]-1
+            else
+                efirst = testing[1]-1
+            end
+
+            ssec = 0
+            esec = 0
+            if (testing == nothing)
+                ssec = sfirst
+                esec = efirst
+            else
+                ssec = efirst+2
+                esec  = findnext(")",file[i],ssec)[1]-1
+            end
+
+            first_num::Int64 = parse(Int64,file[i][sfirst:efirst])
+            second_num::Int64 = parse(Int64,file[i][ssec:esec])
+
+            file[i] = replace(file[i],r"numpy.eye(.*)" => "Matrix{Float64}(I,$first_num,$second_num)")
+        end
     end
 end
 
