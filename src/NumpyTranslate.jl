@@ -1,3 +1,23 @@
+"""
+    module NumpyTranslate
+
+Summary
+========
+Contains functions which convert NumPy functionalities to
+Julia functionalities.
+
+Functions
+==========
+translate array = translates numpy array creation
+
+translate matrix = translates numpy functions for creation of specialized matrices
+
+translate numpy functions = translate numpy matrix/array functions
+
+translate linalg functions = translate functions from the linalg submodule
+
+run (exported) = execute all aforementioned functions
+"""
 module NumpyTranslate
 
 function translate_array(file::Array{String,1})
@@ -24,7 +44,7 @@ function translate_array(file::Array{String,1})
     end
 end
 
-function translate_matrix_make(file::Array{String,1})
+function translate_matrix(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("numpy.zeros",file[i]))
             file[i] = replace(file[i],"numpy.zeros" => "zeros")
@@ -114,7 +134,7 @@ end
 
 function run(file::Array{String,1})
     translate_array(file)
-    translate_matrix_make(file)
+    translate_matrix(file)
     translate_numpy_functions(file)
     translate_linalg_functions(file)
 end

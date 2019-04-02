@@ -1,3 +1,20 @@
+"""
+    module ScipyTranslate
+
+Summary
+========
+Contains functions which convert SciPy functionalities to
+Julia functionalities.
+
+Functions
+==========
+
+translate scipy functions = translate scipy matrix/array functions
+
+translate linalg functions = translate functions from the linalg submodule
+
+run (exported) = execute all aforementioned functions
+"""
 module ScipyTranslate
 
 function translate_scipy_functions(file::Array{String,1})

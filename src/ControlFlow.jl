@@ -1,3 +1,20 @@
+"""
+    module ControlFlow
+
+Summary
+========
+Contains functions which reformat for, if, and while loops to use Julia syntax
+
+Functions
+==========
+for loops = reformat for loops
+
+if loops = reformat if statements
+
+while loops = reformat while loops
+
+run (exported) = execute all aforementioned functions
+"""
 module ControlFlow
 
 #fix up issues with for loops

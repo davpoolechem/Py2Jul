@@ -1,5 +1,16 @@
 Base.include(@__MODULE__,"src/JuliaModuleIncludes.jl")
+"""
+    module Py2Jul
 
+Summary
+========
+Contains core py2jul algorithm
+
+Functions
+==========
+
+run = execute py2jul
+"""
 module Py2Jul
 
 using Main.ControlFlow

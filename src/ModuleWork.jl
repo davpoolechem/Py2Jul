@@ -1,3 +1,18 @@
+"""
+    module ModuleWork
+
+Summary
+========
+Contains functions which reformat Python module imports to use PyCall.jl syntax
+
+Functions
+==========
+module imports = reformat "import module" statements to use PyCall syntax
+
+add pycall = add "import PyCall" to beginning of file
+
+run (exported) = execute all aforementioned functions
+"""
 module ModuleWork
 
 #copy straight module imports
