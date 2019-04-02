@@ -21,12 +21,12 @@ function run(filename::String)
     #handle control flow constructs
     ControlFlow.run(file_array)
 
+    #handle work involving module imports
+    ModuleWork.run(file_array)
+
     #translate scientific module constructs to julia constructs
     NumpyTranslate.run(file_array)
     ScipyTranslate.run(file_array)
-
-    #handle work involving module imports
-    ModuleWork.run(file_array)
 
     #final copy
     f_jl::IOStream = open(filename*".jl","w")

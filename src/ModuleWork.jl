@@ -19,7 +19,26 @@ function module_imports(file_array::Array{String,1})
                     file_array[i] = replace(file_array[i],"import scipy" => "")
                 end
             end
+        elseif (occursin("import linalg",file_array[i]))
+            for i in 1:length(file_array)
+                if (!occursin("import linalg",file_array[i]))
+                    file_array[i] = replace(file_array[i],"import linalg" => "import LinearAlgebra")
+                else
+                    file_array[i] = replace(file_array[i],"import linalg" => "")
+                end
+
+                if (occursin(r"from.*",file_array[i]))
+                    file_array[i] = replace(file_array[i],file_array[i] => "")
+                end
+            end
         elseif (occursin("import ",file_array[i]))
+            #get rid of from module imports
+            if (occursin(r"from.*",file_array[i]))
+                first = 1
+                last = findfirst("import",file_array[i])[1]-1
+                file_array[i] = replace(file_array[i],file_array[i][first:last] => "")
+            end
+
             file_array[i] = replace(file_array[i],"import " => "PyCall.pyimport(\"")
             file_array[i] = file_array[i]*"\")"
 
