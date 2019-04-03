@@ -78,7 +78,7 @@ function add_pycall(file::Array{String,1})
     end
 end
 
-function run(file::Array{String,1})
+@inline function run(file::Array{String,1})
     module_imports(file)
     add_pycall(file)
 end

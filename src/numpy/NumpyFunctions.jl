@@ -48,7 +48,7 @@ function translate_linalg_functions(file::Array{String,1})
     end
 end
 
-function run(file::Array{String,1})
+@inline function run(file::Array{String,1})
     translate_numpy_functions(file)
     translate_linalg_functions(file)
 end

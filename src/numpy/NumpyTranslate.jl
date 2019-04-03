@@ -3,13 +3,13 @@ Base.include(@__MODULE__,"NumpyMatrices.jl")
 
 module NumpyTranslate
 
-    using Main.NumpyFunctions
-    using Main.NumpyMatrices
+using Main.NumpyFunctions
+using Main.NumpyMatrices
 
-    function run(file::Array{String,1})
-        NumpyFunctions.run(file)
-        NumpyMatrices.run(file)
-    end
-    export run
+@inline function run(file::Array{String,1})
+    NumpyFunctions.run(file)
+    NumpyMatrices.run(file)
+end
+export run
 
 end

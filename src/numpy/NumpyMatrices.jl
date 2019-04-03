@@ -100,7 +100,7 @@ function translate_matrix(file::Array{String,1})
     end
 end
 
-function run(file::Array{String,1})
+@inline function run(file::Array{String,1})
     translate_array(file)
     translate_matrix(file)
 end
