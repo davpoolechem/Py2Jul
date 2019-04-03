@@ -24,14 +24,14 @@ function translate_pow(file::Array{String,1})
 end
 
 @inline function run(file::Array{String,1})
-    translate_logarithmic(file,exp)
-    translate_logarithmic(file,expm1)
-    translate_logarithmic(file,log)
-    translate_logarithmic(file,log1p)
-    translate_logarithmic(file,log2)
-    translate_logarithmic(file,log10)
+    translate_logarithmic(file,"exp")
+    translate_logarithmic(file,"expm1")
+    translate_logarithmic(file,"log")
+    translate_logarithmic(file,"log1p")
+    translate_logarithmic(file,"log2")
+    translate_logarithmic(file,"log10")
     #keep pow for now (use ^ operator)
-    translate_logarithmic(file,sqrt)
+    translate_logarithmic(file,"sqrt")
 end
 export run
 

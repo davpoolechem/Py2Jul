@@ -49,23 +49,23 @@ function translate_remainder(file::Array{String,1},)
 end
 
 @inline function run(file::Array{String,1})
-    translate_theoretic(file,ceil)
-    translate_theoretic(file,copysign)
+    translate_theoretic(file,"ceil")
+    translate_theoretic(file,"copysign")
     translate_abs(file)
-    translate_theoretic(file,factorial)
-    translate_theoretic(file,floor)
+    translate_theoretic(file,"factorial")
+    translate_theoretic(file,"floor")
     #keep fmod for now
-    translate_theoretic(file,frexp)
+    translate_theoretic(file,"frexp")
     #keep fsum for now
-    translate_theoretic(file,gcd)
+    translate_theoretic(file,"gcd")
     translate_isclose(file)
-    translate_theoretic(file,isfinite)
-    translate_theoretic(file,isinf)
-    translate_theoretic(file,isnan)
-    translate_theoretic(file,ldexp)
-    translate_theoretic(file,modf)
+    translate_theoretic(file,"isfinite")
+    translate_theoretic(file,"isinf")
+    translate_theoretic(file,"isnan")
+    translate_theoretic(file,"ldexp")
+    translate_theoretic(file,"modf")
     translate_rem(file)
-    translate_theoretic(file,trunc)
+    translate_theoretic(file,"trunc")
 end
 export run
 

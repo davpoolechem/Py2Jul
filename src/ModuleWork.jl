@@ -40,36 +40,25 @@ end
 
 #add LinearAlgebra if necessary
 function add_linearalgebra(file::Array{String,1})
+    need_LinearAlgebra::Bool = false
     for i in 1:length(file)
-        if (occursin("import numpy",file[i]))
-            for i in 1:length(file)
-                if (!occursin("using LinearAlgebra",file[i]))
-                    file[i] = replace(file[i],"import numpy" => "using LinearAlgebra")
-                else
-                    file[i] = replace(file[i],"import numpy" => "")
-                end
-            end
-        elseif (occursin("import scipy",file[i]))
-            for i in 1:length(file)
-                if (!occursin("using LinearAlgebra",file[i]))
-                    file[i] = replace(file[i],"import scipy" => "using LinearAlgebra")
-                else
-                    file[i] = replace(file[i],"import scipy" => "")
-                end
-            end
-        elseif (occursin("import linalg",file[i]))
-            for i in 1:length(file)
-                if (!occursin("using LinearAlgebra",file[i]))
-                    file[i] = replace(file[i],"import linalg" => "using LinearAlgebra")
-                else
-                    file[i] = replace(file[i],"import linalg" => "")
-                end
+        need_LinearAlgebra = need_LinearAlgebra || occursin("LinearAlgebra.",file[i])
+    end
 
-                if (occursin(r"from.*",file[i]))
-                    file[i] = replace(file[i],file[i] => "")
-                end
-            end
-        end
+    if (need_LinearAlgebra)
+        pushfirst!(file,"import LinearAlgebra")
+    end
+end
+
+#add SpecialFunctions if necessary
+function add_specialfunctions(file::Array{String,1})
+    need_SpecialFunctions::Bool = false
+    for i in 1:length(file)
+        need_SpecialFunctions = need_SpecialFunctions || occursin("SpecialFunctions.",file[i])
+    end
+
+    if (need_SpecialFunctions)
+        pushfirst!(file,"import SpecialFunctions")
     end
 end
 
@@ -86,8 +75,9 @@ function add_pycall(file::Array{String,1})
 end
 
 @inline function run(file::Array{String,1})
-    add_linearalgebra(file)
     module_imports(file)
+    add_linearalgebra(file)
+    add_specialfunctions(file)
     add_pycall(file)
 end
 export run

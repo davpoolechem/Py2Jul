@@ -16,8 +16,10 @@ module Py2Jul
 using Main.ControlFlow
 using Main.ModuleWork
 using Main.BasicWork
+
 using Main.NumpyTranslate
 using Main.ScipyTranslate
+using Main.MathTranslate
 
 function run(filename::String)
 
@@ -32,12 +34,13 @@ function run(filename::String)
     #handle control flow constructs
     ControlFlow.run(file)
 
-    #handle work involving module imports
-    ModuleWork.run(file)
-
     #translate scientific module constructs to julia constructs
     NumpyTranslate.run(file)
     ScipyTranslate.run(file)
+    MathTranslate.run(file)
+
+    #handle work involving module imports
+    ModuleWork.run(file)
 
     #final copy
     f_jl::IOStream = open(filename*".jl","w")

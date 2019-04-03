@@ -9,10 +9,10 @@ function translate_special(file::Array{String,1},fxn::String)
 end
 
 @inline function run(file::Array{String,1})
-    translate_special(file,erf)
-    translate_special(file,erfc)
-    translate_special(file,gamma)
-    translate_special(file,lgamma)
+    translate_special(file,"erf")
+    translate_special(file,"erfc")
+    translate_special(file,"gamma")
+    translate_special(file,"lgamma")
 end
 export run
 
