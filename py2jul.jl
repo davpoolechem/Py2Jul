@@ -20,6 +20,7 @@ using Main.BasicWork
 using Main.NumpyTranslate
 using Main.ScipyTranslate
 using Main.MathTranslate
+using Main.CmathTranslate
 
 function run(filename::String)
 
@@ -37,7 +38,10 @@ function run(filename::String)
     #translate scientific module constructs to julia constructs
     NumpyTranslate.run(file)
     ScipyTranslate.run(file)
+
+    #translate mathematic module constructs to julia constructs
     MathTranslate.run(file)
+    CmathTranslate.run(file)
 
     #handle work involving module imports
     ModuleWork.run(file)
