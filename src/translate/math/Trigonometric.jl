@@ -1,4 +1,4 @@
-Base.include(@__MODULE__, "../helpers/GetElements.jl")
+Base.include(@__MODULE__, "../../helpers/GetElements.jl")
 
 module Trigonometric
 
