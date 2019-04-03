@@ -17,7 +17,7 @@ using Main.Trigonometric
     Logarithmic.run(file)
     Special.run(file)
     Theoretic.run(file)
-    #Trigonometric.run(file)
+    Trigonometric.run(file)
 end
 export run
 
