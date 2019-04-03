@@ -36,12 +36,26 @@ function run(filename::String)
     ControlFlow.run(file)
 
     #translate scientific module constructs to julia constructs
-    NumpyTranslate.run(file)
-    ScipyTranslate.run(file)
+    for i in 1:length(file)
+        if (occursin("import numpy", file[i]))
+            NumpyTranslate.run(file)
+        end
+
+        if (occursin("import scipy", file[i]))
+            ScipyTranslate.run(file)
+        end
+    end
 
     #translate mathematic module constructs to julia constructs
-    MathTranslate.run(file)
-    CmathTranslate.run(file)
+    for i in 1:length(file)
+        if (occursin("import cmath", file[i]))
+            CmathTranslate.run(file)
+        end
+
+        if (occursin("import math", file[i]))
+            MathTranslate.run(file)
+        end
+    end
 
     #handle work involving module imports
     ModuleWork.run(file)

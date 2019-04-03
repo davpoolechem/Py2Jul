@@ -52,11 +52,11 @@ function add_linearalgebra(file::Array{String,1})
         pushfirst!(file,"using LinearAlgebra")
     end
 
-    for i in 1:length(file)
-        file[i] = replace(file[i],"numpy = PyCall.pyimport(\"numpy\")" => "")
-        file[i] = replace(file[i],"scipy = PyCall.pyimport(\"scipy\")" => "")
-        file[i] = replace(file[i],"math = PyCall.pyimport(\"math\")" => "")
-    end
+    #for i in 1:length(file)
+    #    file[i] = replace(file[i],"numpy = PyCall.pyimport(\"numpy\")" => "")
+    #    file[i] = replace(file[i],"scipy = PyCall.pyimport(\"scipy\")" => "")
+    #    file[i] = replace(file[i],"math = PyCall.pyimport(\"math\")" => "")
+    #end
 end
 
 #add SpecialFunctions if necessary
