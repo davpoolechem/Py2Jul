@@ -51,7 +51,7 @@ end
 @inline function run(file::Array{String,1})
     translate_theoretic(file,"ceil")
     translate_theoretic(file,"copysign")
-    translate_abs(file)
+    translate_fabs(file)
     translate_theoretic(file,"factorial")
     translate_theoretic(file,"floor")
     #keep fmod for now
@@ -64,7 +64,7 @@ end
     translate_theoretic(file,"isnan")
     translate_theoretic(file,"ldexp")
     translate_theoretic(file,"modf")
-    translate_rem(file)
+    translate_remainder(file)
     translate_theoretic(file,"trunc")
 end
 export run
