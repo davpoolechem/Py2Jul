@@ -1,12 +1,15 @@
 def fizzbuzz(num):
     for i in range(1,num):
         if i%15 == 0:
-	    print "fizzbuzz"
+	    	print "fizzbuzz"
         elif i%5 == 0:
-	    print "buzz"
+	    	print "buzz"
         elif i%3 == 0:
-	    print "fizz"
+	    	print "fizz"
         else:
-	    print i
+	    	print i
+		#end
+	#end
+#end
 
-fizzbuzz(10000000) 
+fizzbuzz(10000000)

@@ -44,9 +44,16 @@ function printing(file::Array{String,1})
         if (occursin("print ",file[i]))
             file[i] = replace(file[i],"print " => "println(")
             file[i] = file[i]*")"
-
-            file[i] = replace(file[i],"print(" => "println(")
         end
+
+        file[i] = replace(file[i],"print(" => "println(")
+    end
+end
+
+#uncomment '#end' annotations
+function uncomment_ends(file::Array{String,1})
+    for i in 1:length(file)
+        file[i] = replace(file[i],"#end" => "end")
     end
 end
 
@@ -62,6 +69,7 @@ end
     basic_functions(file)
     python_to_julia(file)
     printing(file)
+    uncomment_ends(file)
     misc_work(file)
 end
 export run
