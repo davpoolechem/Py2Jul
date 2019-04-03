@@ -10,6 +10,6 @@ def fizzbuzz(num):
 	    	print i
 		#end
 	#end
-#end
+#endfxn
 
 fizzbuzz(10000000)

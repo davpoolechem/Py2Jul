@@ -16,5 +16,5 @@ def is_prime(num):
     else:
 		print("This number is not prime!")
 	#end
-#end
+#endfxn
 is_prime(2147483647)

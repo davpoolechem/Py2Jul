@@ -53,6 +53,7 @@ end
 #uncomment '#end' annotations
 function uncomment_ends(file::Array{String,1})
     for i in 1:length(file)
+        file[i] = replace(file[i],"#endfxn" => "end")
         file[i] = replace(file[i],"#end" => "end")
     end
 end
