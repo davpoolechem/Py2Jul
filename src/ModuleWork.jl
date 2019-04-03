@@ -43,10 +43,19 @@ function add_linearalgebra(file::Array{String,1})
     need_LinearAlgebra::Bool = false
     for i in 1:length(file)
         need_LinearAlgebra = need_LinearAlgebra || occursin("LinearAlgebra.",file[i])
+        need_LinearAlgebra = need_LinearAlgebra || occursin("numpy = PyCall.pyimport(\"numpy\")",file[i])
+        need_LinearAlgebra = need_LinearAlgebra || occursin("scipy = PyCall.pyimport(\"scipy\")",file[i])
+
     end
 
     if (need_LinearAlgebra)
-        pushfirst!(file,"import LinearAlgebra")
+        pushfirst!(file,"using LinearAlgebra")
+    end
+
+    for i in 1:length(file)
+        file[i] = replace(file[i],"numpy = PyCall.pyimport(\"numpy\")" => "")
+        file[i] = replace(file[i],"scipy = PyCall.pyimport(\"scipy\")" => "")
+        file[i] = replace(file[i],"math = PyCall.pyimport(\"math\")" => "")
     end
 end
 
