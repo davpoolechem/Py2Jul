@@ -7,7 +7,7 @@ using Main.GetElements
 function translate_logarithmic(file::Array{String,1},fxn::String)
     for i in 1:length(file)
         if (occursin("math.$fxn",file[i]))
-            file[i] = replace(file[i],"numpy.$fxn" => "$fxn")
+            file[i] = replace(file[i],"math.$fxn" => "$fxn")
         end
     end
 end

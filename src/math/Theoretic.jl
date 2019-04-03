@@ -19,7 +19,7 @@ module Theoretic
 function translate_theoretic(file::Array{String,1},fxn::String)
     for i in 1:length(file)
         if (occursin("math.$fxn",file[i]))
-            file[i] = replace(file[i],"numpy.$fxn" => "$fxn")
+            file[i] = replace(file[i],"math.$fxn" => "$fxn")
         end
     end
 end
@@ -27,7 +27,7 @@ end
 function translate_fabs(file::Array{String,1},)
     for i in 1:length(file)
         if (occursin("math.fabs",file[i]))
-            file[i] = replace(file[i],"numpy.fabs" => "abs")
+            file[i] = replace(file[i],"math.fabs" => "abs")
         end
     end
 end
@@ -35,7 +35,7 @@ end
 function translate_isclose(file::Array{String,1},)
     for i in 1:length(file)
         if (occursin("math.isclose",file[i]))
-            file[i] = replace(file[i],"numpy.isclose" => "isapprox")
+            file[i] = replace(file[i],"math.isclose" => "isapprox")
         end
     end
 end
@@ -43,7 +43,7 @@ end
 function translate_remainder(file::Array{String,1},)
     for i in 1:length(file)
         if (occursin("math.remainder",file[i]))
-            file[i] = replace(file[i],"numpy.remainder" => "rem")
+            file[i] = replace(file[i],"math.remainder" => "rem")
         end
     end
 end

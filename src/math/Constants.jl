@@ -3,7 +3,7 @@ module Constants
 function translate_pi(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("math.pi",file[i]))
-            file[i] = replace(file[i],"numpy.pi" => "π")
+            file[i] = replace(file[i],"math.pi" => "π")
         end
     end
 end
@@ -11,7 +11,7 @@ end
 function translate_e(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("math.e",file[i]))
-            file[i] = replace(file[i],"numpy.e" => "ℯ")
+            file[i] = replace(file[i],"math.e" => "ℯ")
         end
     end
 end
@@ -19,7 +19,7 @@ end
 function translate_tau(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("math.tau",file[i]))
-            file[i] = replace(file[i],"numpy.tau" => "2π")
+            file[i] = replace(file[i],"math.tau" => "2π")
         end
     end
 end
@@ -27,7 +27,7 @@ end
 function translate_inf(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("math.inf",file[i]))
-            file[i] = replace(file[i],"numpy.inf" => "Inf")
+            file[i] = replace(file[i],"math.inf" => "Inf")
         end
     end
 end
@@ -35,7 +35,7 @@ end
 function translate_nan(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("math.nan",file[i]))
-            file[i] = replace(file[i],"numpy.nan" => "NaN")
+            file[i] = replace(file[i],"math.nan" => "NaN")
         end
     end
 end
