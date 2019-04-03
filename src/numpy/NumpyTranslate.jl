@@ -1,14 +1,14 @@
-Base.include(@__MODULE__,"NumpyFunctions.jl")
-Base.include(@__MODULE__,"NumpyMatrices.jl")
+Base.include(@__MODULE__,"array/ArrayTranslate.jl")
+Base.include(@__MODULE__,"functions/FunctionsTranslate.jl")
 
 module NumpyTranslate
 
-using Main.NumpyFunctions
-using Main.NumpyMatrices
+using Main.ArrayTranslate
+using Main.FunctionsTranslate
 
 @inline function run(file::Array{String,1})
-    NumpyFunctions.run(file)
-    NumpyMatrices.run(file)
+    ArrayTranslate.run(file)
+    FunctionsTranslate.run(file)
 end
 export run
 

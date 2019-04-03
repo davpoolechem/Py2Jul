@@ -1,5 +1,5 @@
 import numpy
 import scipy
 
-a = numpy.full((30,30),7)
+a = numpy.add(30.0,40.0)
 print(a)

@@ -1,4 +1,4 @@
-Base.include(@__MODULE__, "../helpers/GetElements.jl")
+Base.include(@__MODULE__, "../../helpers/GetElements.jl")
 
 """
     module NumpyMatrices
@@ -16,33 +16,9 @@ translate matrix = translates numpy functions for creation of specialized matric
 
 run (exported) = execute all aforementioned functions
 """
-module NumpyMatrices
+module ZeroesOnes
 
 using Main.GetElements
-
-function translate_array(file::Array{String,1})
-    for i in 1:length(file)
-        if (occursin(r"\[.*\],",file[i]))
-            file[i] = replace(file[i],"]," => "];")
-            file[i] = replace(file[i],"," => " ")
-
-            file[i] = replace(file[i],"[" => "")
-            file[i] = replace(file[i],"]" => "")
-
-            file[i] = replace(file[i],"numpy.array(" => "            [")
-            file[i] = replace(file[i],")" => "]")
-        end
-
-        if (occursin(r"\[.*\]\]",file[i]))
-            file[i] = replace(file[i],"," => " ")
-
-            file[i] = replace(file[i],"[" => "")
-            file[i] = replace(file[i],"]]" => "]")
-
-            file[i] = replace(file[i],")" => "")
-        end
-    end
-end
 
 function translate_zeros_ones(file::Array{String,1})
     for i in 1:length(file)
@@ -94,7 +70,6 @@ function translate_matrix_eye(file::Array{String,1})
 end
 
 @inline function run(file::Array{String,1})
-    translate_array(file)
     translate_zeros_ones(file)
     translate_matrix_full(file)
     translate_matrix_eye(file)
