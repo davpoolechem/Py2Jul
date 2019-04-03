@@ -1,5 +1,5 @@
 """
-    module ScipyTranslate
+    module ScipyFunctions
 
 Summary
 ========
@@ -15,7 +15,7 @@ translate linalg functions = translate functions from the linalg submodule
 
 run (exported) = execute all aforementioned functions
 """
-module ScipyTranslate
+module ScipyFunctions
 
 function translate_scipy_functions(file::Array{String,1})
 end
