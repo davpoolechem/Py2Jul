@@ -18,7 +18,7 @@ function translate_pow(file::Array{String,1})
             regex = match(r"math.pow(.*)",file[i])
 
             first_num, second_num = GetElements.two(regex[1])
-            file[i] = replace(file[i],r"numpy.empty(.*)" => "$first_num^$second_num")
+            file[i] = replace(file[i],r"numpy.pow(.*)" => "$first_num^$second_num")
         end
     end
 end
