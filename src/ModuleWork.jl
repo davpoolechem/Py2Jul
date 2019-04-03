@@ -18,6 +18,29 @@ module ModuleWork
 #copy straight module imports
 function module_imports(file::Array{String,1})
     for i in 1:length(file)
+        if (occursin("import ",file[i]))
+            #get rid of from module imports
+            if (occursin(r"from.*",file[i]))
+                first = 1
+                last = findfirst("import",file[i])[1]-1
+                file[i] = replace(file[i],file[i][first:last] => "")
+            end
+
+            file[i] = replace(file[i],"import " => "PyCall.pyimport(\"")
+            file[i] = file[i]*"\")"
+
+            first::Int64 = findfirst("(\"",file[i])[2]+1
+            last::Int64 = findfirst("\")",file[i])[1]-1
+            modulename::String = file[i][first:last]
+
+            file[i] = modulename*" = "*file[i]
+        end
+    end
+end
+
+#add LinearAlgebra if necessary
+function add_linearalgebra(file::Array{String,1})
+    for i in 1:length(file)
         if (occursin("import numpy",file[i]))
             for i in 1:length(file)
                 if (!occursin("using LinearAlgebra",file[i]))
@@ -46,22 +69,6 @@ function module_imports(file::Array{String,1})
                     file[i] = replace(file[i],file[i] => "")
                 end
             end
-        elseif (occursin("import ",file[i]))
-            #get rid of from module imports
-            if (occursin(r"from.*",file[i]))
-                first = 1
-                last = findfirst("import",file[i])[1]-1
-                file[i] = replace(file[i],file[i][first:last] => "")
-            end
-
-            file[i] = replace(file[i],"import " => "PyCall.pyimport(\"")
-            file[i] = file[i]*"\")"
-
-            first::Int64 = findfirst("(\"",file[i])[2]+1
-            last::Int64 = findfirst("\")",file[i])[1]-1
-            modulename::String = file[i][first:last]
-
-            file[i] = modulename*" = "*file[i]
         end
     end
 end
@@ -79,6 +86,7 @@ function add_pycall(file::Array{String,1})
 end
 
 @inline function run(file::Array{String,1})
+    add_linearalgebra(file)
     module_imports(file)
     add_pycall(file)
 end
