@@ -1,5 +1,5 @@
 import numpy
 import scipy
 
-a = numpy.eye(5,4)
+a = numpy.full((30,30),7)
 print(a)
