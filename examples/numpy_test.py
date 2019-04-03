@@ -1,5 +1,4 @@
 import numpy
-import scipy
 
-a = numpy.add(30.0,40.0)
+a = numpy.identity(3)
 print(a)
