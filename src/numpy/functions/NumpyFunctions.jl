@@ -34,23 +34,8 @@ function translate_numpy_functions(file::Array{String,1})
     end
 end
 
-function translate_linalg_functions(file::Array{String,1})
-    for i in 1:length(file)
-
-        #numpy.linalg.inv
-        if (occursin("linalg.inv",file[i]))
-            file[i] = replace(file[i],"linalg.inv" => "LinearAlgebra.inv")
-
-            if (occursin("numpy.",file[i]))
-                file[i] = replace(file[i],"numpy." => "")
-            end
-        end
-    end
-end
-
 @inline function run(file::Array{String,1})
     translate_numpy_functions(file)
-    translate_linalg_functions(file)
 end
 export run
 
