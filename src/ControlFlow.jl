@@ -1,4 +1,4 @@
-Base.include(@__MODULE__,"helpers/GetElements.jl")
+#Base.include(@__MODULE__,"helpers/GetElements.jl")
 
 """
     module ControlFlow
@@ -19,7 +19,7 @@ run (exported) = execute all aforementioned functions
 """
 module ControlFlow
 
-using Main.GetElements
+using GetElements
 
 #fix up issues with for loops
 function for_loops(file::Array{String,1})

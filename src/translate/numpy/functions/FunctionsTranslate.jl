@@ -1,8 +1,6 @@
-Base.include(@__MODULE__,"NumpyFunctions.jl")
-
 module FunctionsTranslate
 
-using Main.NumpyFunctions
+using NumpyFunctions
 
 @inline function run(file::Array{String,1})
     NumpyFunctions.run(file)

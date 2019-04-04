@@ -1,4 +1,4 @@
-module Constants
+module PyMathConstants
 
 function translate_pi(file::Array{String,1})
     for i in 1:length(file)

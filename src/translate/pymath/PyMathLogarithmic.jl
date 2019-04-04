@@ -1,8 +1,6 @@
-Base.include(@__MODULE__, "../../helpers/GetElements.jl")
+module PyMathLogarithmic
 
-module Logarithmic
-
-using Main.GetElements
+using GetElements
 
 function translate_logarithmic(file::Array{String,1},fxn::String)
     for i in 1:length(file)

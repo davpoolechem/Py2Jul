@@ -1,4 +1,5 @@
-Base.include(@__MODULE__,"src/JuliaModuleIncludes.jl")
+Base.include(@__MODULE__,"src/JuliaDirectoryAdds.jl")
+
 """
     module Py2Jul
 
@@ -13,17 +14,17 @@ run = execute py2jul
 """
 module Py2Jul
 
-using Main.BasicWork
-using Main.ClassWork
-using Main.ControlFlow
-using Main.ModuleWork
+using BasicWork
+using ClassWork
+using ControlFlow
+using ModuleWork
 
-using Main.NumpyTranslate
-using Main.ScipyTranslate
+using NumpyTranslate
+using ScipyTranslate
 
-using Main.MathTranslate
-using Main.CmathTranslate
-using Main.RandomTranslate
+using PyMathTranslate
+using CmathTranslate
+using RandomTranslate
 
 function run(filename_py::String)
     #get simple filename for later use
@@ -59,7 +60,7 @@ function run(filename_py::String)
         end
 
         if (occursin("import math", file[i]))
-            MathTranslate.run(file)
+            PyMathTranslate.run(file)
         end
 
         if (occursin("import random", file[i]))
@@ -82,3 +83,5 @@ function run(filename_py::String)
 end
 
 end
+
+Py2Jul.run("examples/monte_carlo_pi.py")

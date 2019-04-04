@@ -14,7 +14,7 @@ translate matrix = translates numpy functions for creation of specialized matric
 
 run (exported) = execute all aforementioned functions
 """
-module Theoretic
+module PyMathTheoretic
 
 function translate_theoretic(file::Array{String,1},fxn::String)
     for i in 1:length(file)

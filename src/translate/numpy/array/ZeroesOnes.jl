@@ -1,5 +1,3 @@
-Base.include(@__MODULE__, "../../../helpers/GetElements.jl")
-
 """
     module NumpyMatrices
 
@@ -18,7 +16,7 @@ run (exported) = execute all aforementioned functions
 """
 module ZeroesOnes
 
-using Main.GetElements
+using GetElements
 
 function translate_empty(file::Array{String,1})
     for i in 1:length(file)

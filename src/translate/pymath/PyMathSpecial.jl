@@ -1,4 +1,4 @@
-module Special
+module PyMathSpecial
 
 function translate_special(file::Array{String,1},fxn::String)
     for i in 1:length(file)

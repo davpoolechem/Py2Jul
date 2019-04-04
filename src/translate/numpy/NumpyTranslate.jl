@@ -1,10 +1,7 @@
-Base.include(@__MODULE__,"array/ArrayTranslate.jl")
-Base.include(@__MODULE__,"functions/FunctionsTranslate.jl")
-
 module NumpyTranslate
 
-using Main.ArrayTranslate
-using Main.FunctionsTranslate
+using ArrayTranslate
+using FunctionsTranslate
 
 @inline function run(file::Array{String,1})
     ArrayTranslate.run(file)

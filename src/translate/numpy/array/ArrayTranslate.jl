@@ -1,10 +1,7 @@
-Base.include(@__MODULE__,"FromExisting.jl")
-Base.include(@__MODULE__,"ZeroesOnes.jl")
-
 module ArrayTranslate
 
-using Main.FromExisting
-using Main.ZeroesOnes
+using FromExisting
+using ZeroesOnes
 
 @inline function run(file::Array{String,1})
     FromExisting.run(file)
