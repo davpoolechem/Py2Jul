@@ -82,6 +82,3 @@ function run(filename_py::String)
 end
 
 end
-
-file = ARGS[1]
-Py2Jul.run(file)
