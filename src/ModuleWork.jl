@@ -1,17 +1,8 @@
 """
     module ModuleWork
 
-Summary
-========
 Contains functions which reformat Python module imports to use PyCall.jl syntax
-
-Functions
-==========
-module imports = reformat "import module" statements to use PyCall syntax
-
-add pycall = add "import PyCall" to beginning of file
-
-run (exported) = execute all aforementioned functions
+and clean up imports for modules being translated to Julia syntax.
 """
 module ModuleWork
 
@@ -19,7 +10,7 @@ module ModuleWork
     module_imports(file::Array{String,1})
 
 Replace "import module" with "module = "PyCall.pyimport(module)" for use with
-PyCall.jl."
+PyCall.jl.
 """
 function module_imports(file::Array{String,1})
     for i in 1:length(file)
@@ -124,7 +115,7 @@ end
 """
     run(file::Array{String,1})
 
-Execute all functions in the ModuleWork module. 
+Execute all functions in the ModuleWork module.
 """
 @inline function run(file::Array{String,1})
     module_imports(file)
