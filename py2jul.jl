@@ -1,5 +1,11 @@
 Base.include(@__MODULE__,"src/JuliaDirectoryAdds.jl")
 
+"""
+    module Py2Jul
+
+Contains the main function call by which the Py2Jul translation is
+executed.
+"""
 module Py2Jul
 
 using BasicWork
@@ -17,7 +23,9 @@ using RandomTranslate
 """
     run(filename_py::String)
 
-Execute the core Py2Jul Python->Julia code translation algorithm.
+Execute the core Py2Jul Python->Julia code translation algorithm. This function
+inputs a path/to/python/file.py filename and outputs a path/to/python/file.jl
+Julia file.
 """
 function run(filename_py::String)
     #get simple filename for later use

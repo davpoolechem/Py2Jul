@@ -1,5 +1,8 @@
-Base.include(@__MODULE__,"JuliaMakeAdds.jl")
+Base.include(@__MODULE__,"src/JuliaMakeAdds.jl")
 
-using Documenter, Py2Jul
+using Documenter, Py2Jul, ModuleWork
 
-makedocs(sitename="Py2Jul Documentation")
+makedocs(
+    sitename="Py2Jul Documentation",
+    modules = [Py2Jul],
+)
