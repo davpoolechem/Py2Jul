@@ -50,14 +50,6 @@ function printing(file::Array{String,1})
     end
 end
 
-#uncomment '#end' annotations
-function uncomment_ends(file::Array{String,1})
-    for i in 1:length(file)
-        file[i] = replace(file[i],"#endfxn" => "end")
-        file[i] = replace(file[i],"#end" => "end")
-    end
-end
-
 #other random fixes
 function misc_work(file::Array{String,1})
     for i in 1:length(file)
@@ -70,7 +62,6 @@ end
     basic_functions(file)
     python_to_julia(file)
     printing(file)
-    uncomment_ends(file)
     misc_work(file)
 end
 export run

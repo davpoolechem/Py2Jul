@@ -1,5 +1,6 @@
 #import basic module_imports
 Base.include(@__MODULE__,"BasicWork.jl")
+Base.include(@__MODULE__,"ClassWork.jl")
 Base.include(@__MODULE__,"ControlFlow.jl")
 Base.include(@__MODULE__,"ModuleWork.jl")
 

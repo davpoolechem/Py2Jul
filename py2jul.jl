@@ -13,9 +13,10 @@ run = execute py2jul
 """
 module Py2Jul
 
+using Main.BasicWork
+using Main.ClassWork
 using Main.ControlFlow
 using Main.ModuleWork
-using Main.BasicWork
 
 using Main.NumpyTranslate
 using Main.ScipyTranslate
@@ -59,6 +60,9 @@ function run(filename::String)
 
     #handle work involving module imports
     ModuleWork.run(file)
+
+    #translate classes
+    ClassWork.run(file)
 
     #final copy
     f_jl::IOStream = open(filename*".jl","w")
