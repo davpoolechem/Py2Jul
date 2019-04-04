@@ -71,6 +71,18 @@ function add_specialfunctions(file::Array{String,1})
     end
 end
 
+#add SpecialFunctions if necessary
+function add_distributions(file::Array{String,1})
+    need_Distributions::Bool = false
+    for i in 1:length(file)
+        need_Distributions = need_Distributions || occursin("Distributions.",file[i])
+    end
+
+    if (need_Distributions)
+        pushfirst!(file,"import Distributions")
+    end
+end
+
 #add PyCall if necessary
 function add_pycall(file::Array{String,1})
     need_PyCall::Bool = false
@@ -87,6 +99,7 @@ end
     module_imports(file)
     add_linearalgebra(file)
     add_specialfunctions(file)
+    add_distributions(file)
     add_pycall(file)
 end
 export run

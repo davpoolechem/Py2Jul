@@ -11,3 +11,4 @@ Base.include(@__MODULE__,"translate/scipy/ScipyTranslate.jl")
 #import mathematics modules
 Base.include(@__MODULE__,"translate/math/MathTranslate.jl")
 Base.include(@__MODULE__,"translate/cmath/CmathTranslate.jl")
+Base.include(@__MODULE__,"translate/random/RandomTranslate.jl")

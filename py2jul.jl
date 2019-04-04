@@ -20,8 +20,10 @@ using Main.ModuleWork
 
 using Main.NumpyTranslate
 using Main.ScipyTranslate
+
 using Main.MathTranslate
 using Main.CmathTranslate
+using Main.RandomTranslate
 
 function run(filename_py::String)
     #get simple filename for later use
@@ -58,6 +60,10 @@ function run(filename_py::String)
 
         if (occursin("import math", file[i]))
             MathTranslate.run(file)
+        end
+
+        if (occursin("import random", file[i]))
+            RandomTranslate.run(file)
         end
     end
 
