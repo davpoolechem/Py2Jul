@@ -1,6 +1,5 @@
-push!(LOAD_PATH,"../src")
-push!(LOAD_PATH,"../")
+Base.include(@__MODULE__,"JuliaMakeAdds.jl")
 
-using Documenter, Example, Py2Jul
+using Documenter, Py2Jul
 
-makedocs(sitename="Py2Jul")
+makedocs(sitename="Py2Jul Documentation")

@@ -1,9 +1,9 @@
 # Example.jl Documentation
 
 ```@meta
-CurrentModule = Example
+CurrentModule = Py2Jul
 ```
 
 ```@docs
-func(x::Int64)
+run(filename_py::String)
 ```

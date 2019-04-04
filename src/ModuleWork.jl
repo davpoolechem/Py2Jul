@@ -15,7 +15,12 @@ run (exported) = execute all aforementioned functions
 """
 module ModuleWork
 
-#copy straight module imports
+"""
+    module_imports(file::Array{String,1})
+
+Replace "import module" with "module = "PyCall.pyimport(module)" for use with
+PyCall.jl."
+"""
 function module_imports(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("import ",file[i]))
@@ -38,7 +43,13 @@ function module_imports(file::Array{String,1})
     end
 end
 
-#add LinearAlgebra if necessary
+"""
+    add_linearalgebra(file::Array{String,1})
+
+Import LinearAlgebra Julia module if code requires it. This will generally be
+the case if a scientific module such as NumPy or SciPy is used in the Python
+code.
+"""
 function add_linearalgebra(file::Array{String,1})
     need_LinearAlgebra::Bool = false
     for i in 1:length(file)
@@ -59,7 +70,12 @@ function add_linearalgebra(file::Array{String,1})
     #end
 end
 
-#add SpecialFunctions if necessary
+"""
+    add_specialfunctions(file::Array{String,1})
+
+Import SpecialFunctions Julia module if code requires it. This is required for
+the translation of certain functions in the Python math module.
+"""
 function add_specialfunctions(file::Array{String,1})
     need_SpecialFunctions::Bool = false
     for i in 1:length(file)
@@ -71,7 +87,12 @@ function add_specialfunctions(file::Array{String,1})
     end
 end
 
-#add SpecialFunctions if necessary
+"""
+    add_distributions(file::Array{String,1})
+
+Import Distributions Julia module if code requires it. This will generally be
+the case if random nnumber generator functions are used.
+"""
 function add_distributions(file::Array{String,1})
     need_Distributions::Bool = false
     for i in 1:length(file)
@@ -83,7 +104,12 @@ function add_distributions(file::Array{String,1})
     end
 end
 
-#add PyCall if necessary
+"""
+    add_pycall(file::Array{String,1})
+
+Import PyCall Julia module if code requires it. This will be the case if other
+Python modules, that haven't been translated to Julia functionalities, are used.
+"""
 function add_pycall(file::Array{String,1})
     need_PyCall::Bool = false
     for i in 1:length(file)
@@ -95,6 +121,11 @@ function add_pycall(file::Array{String,1})
     end
 end
 
+"""
+    run(file::Array{String,1})
+
+Execute all functions in the ModuleWork module. 
+"""
 @inline function run(file::Array{String,1})
     module_imports(file)
     add_linearalgebra(file)

@@ -1,17 +1,5 @@
 Base.include(@__MODULE__,"src/JuliaDirectoryAdds.jl")
 
-"""
-    module Py2Jul
-
-Summary
-========
-Contains core py2jul algorithm
-
-Functions
-==========
-
-run = execute py2jul
-"""
 module Py2Jul
 
 using BasicWork
@@ -26,6 +14,11 @@ using PyMathTranslate
 using CmathTranslate
 using RandomTranslate
 
+"""
+    run(filename_py::String)
+
+Execute the core Py2Jul Python->Julia code translation algorithm.
+"""
 function run(filename_py::String)
     #get simple filename for later use
     filename_regex = match(r"(.*).py",filename_py)
@@ -83,5 +76,3 @@ function run(filename_py::String)
 end
 
 end
-
-Py2Jul.run("examples/monte_carlo_pi.py")
