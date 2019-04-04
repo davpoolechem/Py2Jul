@@ -23,7 +23,10 @@ using Main.ScipyTranslate
 using Main.MathTranslate
 using Main.CmathTranslate
 
-function run(filename::String)
+function run(filename_py::String)
+    #get simple filename for later use
+    filename_regex = match(r"(.*).py",filename_py)
+    filename = filename_regex[1]
 
     #copy python file to julia array object for manipulation
     f_py::IOStream = open(filename*".py")
