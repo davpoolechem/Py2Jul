@@ -136,13 +136,14 @@ Execute all functions in the ModuleWork module.
     add_linearalgebra(file)
     add_specialfunctions(file)
     add_distributions(file)
-    add_pycall(file)
 
     remove_module(file,"numpy")
     remove_module(file,"scipy")
     remove_module(file,"cmath")
     remove_module(file,"math")
     remove_module(file,"random")
+
+    add_pycall(file)
 end
 export run
 
