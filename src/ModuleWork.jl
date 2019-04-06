@@ -6,6 +6,8 @@ and clean up imports for modules being translated to Julia syntax.
 """
 module ModuleWork
 
+using GetElements
+
 """
     module_imports(file::Array{String,1})
 
@@ -15,7 +17,7 @@ PyCall.jl.
 function module_imports(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("import ",file[i]))
-            #get rid of from module imports
+            #properly handle "from a import b" module imports
             if (occursin(r"from.*",file[i]))
                 first = 1
                 last = findfirst("import",file[i])[1]-1
@@ -25,9 +27,9 @@ function module_imports(file::Array{String,1})
             file[i] = replace(file[i],"import " => "PyCall.pyimport(\"")
             file[i] = file[i]*"\")"
 
-            first::Int64 = findfirst("(\"",file[i])[2]+1
-            last::Int64 = findfirst("\")",file[i])[1]-1
-            modulename::String = file[i][first:last]
+            regex = match(r"pyimport(.*)",file[i])
+            modulename::String = GetElements.one(regex[1])
+            modulename = modulename[2:end-1]
 
             file[i] = modulename*" = "*file[i]
         end
@@ -137,11 +139,11 @@ Execute all functions in the ModuleWork module.
     add_specialfunctions(file)
     add_distributions(file)
 
-    remove_module(file,"numpy")
-    remove_module(file,"scipy")
-    remove_module(file,"cmath")
-    remove_module(file,"math")
-    remove_module(file,"random")
+    #remove_module(file,"numpy")
+    #remove_module(file,"scipy")
+    #remove_module(file,"cmath")
+    #remove_module(file,"math")
+    #remove_module(file,"random")
 
     add_pycall(file)
 end

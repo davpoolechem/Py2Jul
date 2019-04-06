@@ -1,4 +1,5 @@
-import random
+import numpy as np
+from random import uniform
 import math
 
 def norm(x,y):
@@ -9,8 +10,8 @@ def norm(x,y):
 def monte_carlo_pi(points):
     points_pass = 0
     for i in range(points):
-        x = random.uniform(-0.5,0.5)
-        y = random.uniform(-0.5,0.5)
+        x = uniform(-0.5,0.5)
+        y = uniform(-0.5,0.5)
         norm_val = norm(x,y)
 
         if norm_val <= 0.5:
