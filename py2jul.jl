@@ -1,10 +1,15 @@
-Base.include(@__MODULE__,"src/JuliaDirectoryAdds.jl")
-
+#Base.include(@__MODULE__,"src/JuliaDirectoryAdds.jl")
 """
     module Py2Jul
 
-Contains the main function call by which the Py2Jul translation is
-executed.
+Summary
+========
+Contains core py2jul algorithm
+
+Functions
+==========
+
+run = execute py2jul
 """
 module Py2Jul
 
@@ -15,18 +20,9 @@ using ModuleWork
 
 using NumpyTranslate
 using ScipyTranslate
-
 using PyMathTranslate
 using CmathTranslate
-using RandomTranslate
 
-"""
-    run(filename_py::String)
-
-Execute the core Py2Jul Python->Julia code translation algorithm. This function
-inputs a path/to/python/file.py filename and outputs a path/to/python/file.jl
-Julia file.
-"""
 function run(filename_py::String)
     #get simple filename for later use
     filename_regex = match(r"(.*).py",filename_py)
@@ -63,10 +59,6 @@ function run(filename_py::String)
         if (occursin("import math", file[i]))
             PyMathTranslate.run(file)
         end
-
-        if (occursin("import random", file[i]))
-            RandomTranslate.run(file)
-        end
     end
 
     #handle work involving module imports
@@ -84,3 +76,5 @@ function run(filename_py::String)
 end
 
 end
+
+Py2Jul.run(ARGS[1])
