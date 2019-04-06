@@ -47,18 +47,11 @@ function add_linearalgebra(file::Array{String,1})
         need_LinearAlgebra = need_LinearAlgebra || occursin("LinearAlgebra.",file[i])
         need_LinearAlgebra = need_LinearAlgebra || occursin("numpy = PyCall.pyimport(\"numpy\")",file[i])
         need_LinearAlgebra = need_LinearAlgebra || occursin("scipy = PyCall.pyimport(\"scipy\")",file[i])
-
     end
 
     if (need_LinearAlgebra)
         pushfirst!(file,"using LinearAlgebra")
     end
-
-    #for i in 1:length(file)
-    #    file[i] = replace(file[i],"numpy = PyCall.pyimport(\"numpy\")" => "")
-    #    file[i] = replace(file[i],"scipy = PyCall.pyimport(\"scipy\")" => "")
-    #    file[i] = replace(file[i],"math = PyCall.pyimport(\"math\")" => "")
-    #end
 end
 
 """
@@ -113,16 +106,43 @@ function add_pycall(file::Array{String,1})
 end
 
 """
+    remove modules(file::Array{String,1})
+
+Remove any unnecessary Python modules from the list.
+"""
+function remove_module(file::Array{String,1}, module_name::String)
+    need_module::Bool = false
+
+    for i in 1:length(file)
+        need_module = need_module || occursin("$module_name"*".",file[i])
+    end
+
+    module_string = "\"$module_name\""
+    for i in 1:length(file)
+        if (!need_module && occursin("$module_name = PyCall.pyimport($module_string)", file[i]))
+            file[i] = replace(file[i],"$module_name = PyCall.pyimport($module_string)" => "")
+        end
+    end
+end
+
+"""
     run(file::Array{String,1})
 
 Execute all functions in the ModuleWork module.
 """
 @inline function run(file::Array{String,1})
     module_imports(file)
+
     add_linearalgebra(file)
     add_specialfunctions(file)
     add_distributions(file)
     add_pycall(file)
+
+    remove_module(file,"numpy")
+    remove_module(file,"scipy")
+    remove_module(file,"cmath")
+    remove_module(file,"math")
+    remove_module(file,"random")
 end
 export run
 
