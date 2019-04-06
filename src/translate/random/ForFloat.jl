@@ -2,7 +2,7 @@ module ForFloat
 
 using GetElements
 
-function translate_random(file::Array{String,1},fxn::String)
+function translate_random(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("random.random()",file[i]))
             file[i] = replace(file[i],"random.random()" => "rand()")
@@ -10,7 +10,7 @@ function translate_random(file::Array{String,1},fxn::String)
     end
 end
 
-function translate_uniform(file::Array{String,1},fxn::String)
+function translate_uniform(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"random.uniform(.*)",file[i]))
             regex = match(r"random.uniform(.*)",file[i])
@@ -23,8 +23,8 @@ end
 
 
 @inline function run(file::Array{String,1})
-    translate_random(file,"exp")
-    translate_uniform(file,"expm1")
+    translate_random(file)
+    translate_uniform(file)
 end
 export run
 

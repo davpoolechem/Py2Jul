@@ -20,8 +20,10 @@ using ModuleWork
 
 using NumpyTranslate
 using ScipyTranslate
+
 using PyMathTranslate
 using CmathTranslate
+using RandomTranslate
 
 function run(filename_py::String)
     #get simple filename for later use
@@ -59,6 +61,10 @@ function run(filename_py::String)
         if (occursin("import math", file[i]))
             PyMathTranslate.run(file)
         end
+
+        if (occursin("import random", file[i]))
+            RandomTranslate.run(file)
+        end
     end
 
     #handle work involving module imports
@@ -76,5 +82,3 @@ function run(filename_py::String)
 end
 
 end
-
-Py2Jul.run(ARGS[1])
