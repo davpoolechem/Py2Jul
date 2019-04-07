@@ -61,8 +61,7 @@ function remove_classes(file::Array{String,1})
             for line in class_start:class_end
                 file[line] = ""
             end
-            file[class_start] = "Base.include(@__MODULE__,\"$class_name"*"Variables.jl\")"
-            file[class_start+1] = "Base.include(@__MODULE__,\"$class_name"*"Functions.jl\")"
+            file[class_start] = "Base.include(@__MODULE__,\"$class_name.jl\")"
         end
     end
 end
@@ -84,9 +83,8 @@ function extract_function(file::Array{String,1}, class_name)
 
     member_fxns = []
     for i in 1:length(file)
-        file[i] = replace(file[i],"(self)" => "()")
-        file[i] = replace(file[i],"(self," => "(")
-        file[i] = replace(file[i],"self." => "")
+        #file[i] = replace(file[i],"(self" => "(self::$class_name")
+        #file[i] = replace(file[i],"self." => "")
 
         #rename init if function is constructor
         if(occursin("__init__",file[i]))

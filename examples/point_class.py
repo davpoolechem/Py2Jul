@@ -10,7 +10,7 @@ class Point:
     #endfxn
 
     def norm(self):
-        norm = (self.x*self.x + self.y*self.y)
+        norm = sqrt(self.x*self.x + self.y*self.y)
         return norm
     #endfxn
 #endclass
