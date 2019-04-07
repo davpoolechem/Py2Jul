@@ -18,24 +18,7 @@ function remove_classes(file::Array{String,1})
             member_variables = extract_member_variables(file[class_start:class_end], class_name)
 
             #cleanup and extract functions into a separate file
-            member_fxns = [[]]
-            fxn_index::Int64 = 1
-            for i in 1:length(file[class_start:class_end])
-                if (occursin(r"function (.*)",file[i]))
-                    regex_fxn = match(r"function (.*)",file[i])
-                    fxn_name = regex_fxn[1]
-
-                    push!(member_fxns,[])
-                    fxn_start::Int64 = i
-                    fxn_end::Int64 = i
-                    while(!occursin("#endfxn",file[fxn_end]))
-                        fxn_end += 1
-                    end
-
-                    member_fxns[fxn_index] = extract_function(file[fxn_start:fxn_end], class_name)
-                    fxn_index += 1
-                end
-            end
+            member_fxns = extract_functions(file[class_start:class_end], class_name)
 
             #perform write to separate file
             f_class::IOStream = open("$class_name.jl","w")
@@ -79,22 +62,37 @@ function extract_member_variables(file::Array{String,1}, class_name)
     return member_variables
 end
 
-function extract_function(file::Array{String,1}, class_name)
-
-    member_fxns = []
+function extract_functions(file::Array{String,1}, class_name)
+    member_fxns = [[]]
+    fxn_index::Int64 = 1
     for i in 1:length(file)
-        #file[i] = replace(file[i],"(self" => "(self::$class_name")
-        #file[i] = replace(file[i],"self." => "")
+        if (occursin(r"function (.*)",file[i]))
+            regex_fxn = match(r"function (.*)",file[i])
+            fxn_name = regex_fxn[1]
 
-        #rename init if function is constructor
-        if(occursin("__init__",file[i]))
-            file[i] = replace(file[i],"__init__" => "$class_name"*"Constructor")
-        end
-        if(occursin("#endfxn",file[i]))
-            file[i] = replace(file[i],"#endfxn" => "end")
-        end
+            push!(member_fxns,[])
+            fxn_start::Int64 = i
+            fxn_end::Int64 = i
+            while(!occursin("#endfxn",file[fxn_end]))
+                fxn_end += 1
+            end
 
-        push!(member_fxns, file[i])
+            for ifxn in file[fxn_start:fxn_end]
+                #file[i] = replace(file[i],"(self" => "(self::$class_name")
+                #file[i] = replace(file[i],"self." => "")
+
+                #rename init if function is constructor
+                if(occursin("__init__",ifxn))
+                    ifxn = replace(ifxn,"__init__" => "$class_name"*"Constructor")
+                end
+                if(occursin("#endfxn",ifxn))
+                    ifxn = replace(ifxn,"#endfxn" => "end")
+                end
+
+                push!(member_fxns[fxn_index], ifxn)
+            end
+            fxn_index += 1
+        end
     end
 
     return member_fxns
