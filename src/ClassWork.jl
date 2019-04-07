@@ -21,24 +21,7 @@ function remove_classes(file::Array{String,1})
             member_fxns = extract_functions(file[class_start:class_end], class_name)
 
             #perform write to separate file
-            f_class::IOStream = open("$class_name.jl","w")
-                #member variables
-                write(f_class,"mutable struct $class_name\n")
-
-                for i in 1:length(member_variables)
-                    write(f_class,member_variables[i]*"\n")
-                end
-                write(f_class,"end\n")
-                write(f_class,"\n")
-
-                #member functions
-                for fxn in member_fxns
-                    for i in 1:length(fxn)
-                        write(f_class,fxn[i]*"\n")
-                    end
-                    write(f_class,"\n")
-                end
-            close(f_class)
+            write_class_file(class_name, member_variables, member_fxns)
 
             #get rid of class in original file
             for line in class_start:class_end
@@ -98,6 +81,26 @@ function extract_functions(file::Array{String,1}, class_name)
     return member_fxns
 end
 
+function write_class_file(class_name, member_variables, member_fxns)
+    f_class::IOStream = open("$class_name.jl","w")
+        #member variables
+        write(f_class,"mutable struct $class_name\n")
+
+        for i in 1:length(member_variables)
+            write(f_class,member_variables[i]*"\n")
+        end
+        write(f_class,"end\n")
+        write(f_class,"\n")
+
+        #member functions
+        for fxn in member_fxns
+            for i in 1:length(fxn)
+                write(f_class,fxn[i]*"\n")
+            end
+            write(f_class,"\n")
+        end
+    close(f_class)
+end
 
 @inline function run(file::Array{String,1})
     remove_classes(file)
