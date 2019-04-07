@@ -18,20 +18,35 @@ function module_imports(file::Array{String,1})
     for i in 1:length(file)
         if (occursin("import ",file[i]))
             #properly handle "from a import b" module imports
-            if (occursin(r"from.*",file[i]))
-                first = 1
-                last = findfirst("import",file[i])[1]-1
-                file[i] = replace(file[i],file[i][first:last] => "")
+            if (occursin(r"from (.*) import (.*)",file[i]))
+                regex = match(r"from (.*) import (.*)",file[i])
+
+                module_name = regex[1]
+                function_name = regex[2]
+
+                for i in 1:length(file)
+                    if (occursin("$function_name(",file[i]))
+                        file[i] = replace(file[i],"$function_name(" => "$module_name"*"."*"$function_name(")
+                    end
+                end
+
+                file[i] = replace(file[i],"from $module_name import $function_name" => "import $module_name")
+
+                file[i] = replace(file[i],"import " => "PyCall.pyimport(\"")
+                file[i] = file[i]*"\")"
+                file[i] = module_name*" = "*file[i]
+            #properly handle "import a as b" module imports
+            #handle normal imports
+            else
+                file[i] = replace(file[i],"import " => "PyCall.pyimport(\"")
+                file[i] = file[i]*"\")"
+
+                regex = match(r"pyimport(.*)",file[i])
+                modulename::String = GetElements.one(regex[1])
+                modulename = modulename[2:end-1]
+
+                file[i] = modulename*" = "*file[i]
             end
-
-            file[i] = replace(file[i],"import " => "PyCall.pyimport(\"")
-            file[i] = file[i]*"\")"
-
-            regex = match(r"pyimport(.*)",file[i])
-            modulename::String = GetElements.one(regex[1])
-            modulename = modulename[2:end-1]
-
-            file[i] = modulename*" = "*file[i]
         end
     end
 end
