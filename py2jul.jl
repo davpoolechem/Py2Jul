@@ -72,7 +72,7 @@ function run(filename_py::String)
     ModuleRemove.run(file)
 
     #translate classes
-    #ClassWork.run(file)
+    ClassWork.run(file)
 
     #final basic changes
     BasicWork.run(file)
