@@ -1,5 +1,7 @@
 module ClassWork
 
+using GetElements
+
 function remove_classes(file::Array{String,1})
     class_start::Int64 = 0
     class_end::Int64 = 0
@@ -7,6 +9,7 @@ function remove_classes(file::Array{String,1})
         if (occursin(r"class (.*)",file[i]))
             regex_class = match(r"class (.*)",file[i])
             class_name = regex_class[1]
+            base_name = ""
 
             class_start = i
             class_end = i
@@ -14,14 +17,23 @@ function remove_classes(file::Array{String,1})
                 class_end += 1
             end
 
+            #account for single inheritance
+            if (occursin(r"class (.*)(\(.*\))",file[i]))
+                regex_inherit = match(r"class (.*)(\(.*\))",file[i])
+
+                class_name = regex_inherit[1]
+                base_name = GetElements.one(regex_inherit[2])
+            end
+
             #extract member variables into a separate structure
-            member_variables = extract_member_variables(file[class_start:class_end], class_name)
+            member_variables = extract_member_variables(file[class_start:class_end],
+                class_name, base_name)
 
             #cleanup and extract functions into a separate file
             member_fxns = extract_functions(file[class_start:class_end], class_name)
 
             #perform write to separate file
-            write_class_file(class_name, member_variables, member_fxns)
+            write_class_file(class_name, base_name, member_variables, member_fxns)
 
             #get rid of class in original file
             for line in class_start:class_end
@@ -32,8 +44,11 @@ function remove_classes(file::Array{String,1})
     end
 end
 
-function extract_member_variables(file::Array{String,1}, class_name)
+function extract_member_variables(file::Array{String,1}, class_name, base_name)
     member_variables = []
+    if (base_name != "")
+        push!(member_variables, "$base_name"*"::"*"$base_name")
+    end
     for i in 1:length(file)
         if(occursin("#member", file[i]))
             file[i] = replace(file[i], "#member" => "")
@@ -83,8 +98,14 @@ function extract_functions(file::Array{String,1}, class_name)
     return member_fxns
 end
 
-function write_class_file(class_name, member_variables, member_fxns)
+function write_class_file(class_name, base_name, member_variables, member_fxns)
     f_class::IOStream = open("$class_name.jl","w")
+        #account for inheritance
+        if (base_name != "")
+            write(f_class,"Base.include(@__MODULE__,\"$base_name.jl\")\n")
+            write(f_class,"\n")
+        end
+
         #member variables
         write(f_class,"mutable struct $class_name\n")
 
