@@ -66,8 +66,8 @@ function add_linearalgebra(file::Array{String,1})
     need_LinearAlgebra::Bool = false
     for i in 1:length(file)
         need_LinearAlgebra = need_LinearAlgebra || occursin("LinearAlgebra.",file[i])
-        need_LinearAlgebra = need_LinearAlgebra || occursin("numpy = PyCall.pyimport(\"numpy\")",file[i])
-        need_LinearAlgebra = need_LinearAlgebra || occursin("scipy = PyCall.pyimport(\"scipy\")",file[i])
+        need_LinearAlgebra = need_LinearAlgebra || occursin(r"(.*) = PyCall.pyimport(\"numpy\")",file[i])
+        need_LinearAlgebra = need_LinearAlgebra || occursin(r"(.*) = PyCall.pyimport(\"scipy\")",file[i])
     end
 
     if (need_LinearAlgebra)
@@ -158,11 +158,11 @@ Execute all functions in the ModuleWork module.
     add_specialfunctions(file)
     add_distributions(file)
 
-    #remove_module(file,"numpy")
-    #remove_module(file,"scipy")
-    #remove_module(file,"cmath")
-    #remove_module(file,"math")
-    #remove_module(file,"random")
+    remove_module(file,"numpy")
+    remove_module(file,"scipy")
+    remove_module(file,"cmath")
+    remove_module(file,"math")
+    remove_module(file,"random")
 
     add_pycall(file)
 end
