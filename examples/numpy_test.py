@@ -1,4 +1,4 @@
 import numpy
 
-test = numpy.empty(100,100)
+test = numpy.linspace(2,3)
 print(test)

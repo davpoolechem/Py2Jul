@@ -24,16 +24,16 @@ using GetElements
 #fix up issues with for loops
 function for_loops(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"range(.*,.*,.*)",file[i]))
+        if (occursin(r"range(.*,.*,.*)",file[i]) && !occursin(r"\wrange(.*,.*,.*)",file[i]))
             regex = match(r"range(.*,.*,.*)",file[i])
             first, second, third = GetElements.three(regex[1])
 
             file[i] = replace(file[i], r"range(.*,.*,.*)"=>"$first:$third:$second")
-        elseif (occursin(r"range(.*,.*)",file[i]))
+        elseif (occursin(r"range(.*,.*)",file[i]) && !occursin(r"\wrange(.*,.*)",file[i]))
             file[i] = replace(file[i],"range(" => "")
             file[i] = replace(file[i],"," => ":")
             file[i] = replace(file[i],")" => "")
-        elseif (occursin(r"range(.*)",file[i]))
+        elseif (occursin(r"range(.*)",file[i]) && !occursin(r"\wrange(.*)",file[i]))
             regex = match(r"range(.*)",file[i])
             second = GetElements.one(regex[1])
 
