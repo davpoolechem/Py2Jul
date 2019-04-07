@@ -13,7 +13,8 @@ run = execute py2jul
 """
 module Py2Jul
 
-using BasicWork
+using Initialize
+using Finalize
 using ClassWork
 using ControlFlow
 using ModuleReformat
@@ -35,6 +36,9 @@ function run(filename_py::String)
     f_py::IOStream = open(filename*".py")
         file::Array{String,1} = readlines(f_py)
     close(f_py)
+
+    #intitial basic changes
+    Initialize.run(file)
 
     #handle control flow constructs
     ControlFlow.run(file)
@@ -75,7 +79,7 @@ function run(filename_py::String)
     ClassWork.run(file)
 
     #final basic changes
-    BasicWork.run(file)
+    Finalize.run(file)
 
     #final copy
     f_jl::IOStream = open(filename*".jl","w")
