@@ -86,3 +86,5 @@ function run(filename_py::String)
 end
 
 end
+
+Py2Jul.run("examples/numpy_test.py")

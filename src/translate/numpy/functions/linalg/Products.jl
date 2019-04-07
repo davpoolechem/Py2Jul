@@ -17,29 +17,25 @@ function translate_vdot(file::Array{String,1})
     end
 end
 
-function translate_vdot(file::Array{String,1})
+function translate_matmul(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.vdot",file[i]))
-            file[i] = replace(file[i],"numpy.vdot" => "LinearAlgebra.dot")
+        if (occursin(r"numpy.matmul(.*)",file[i]))
+            regex = match(r"numpy.matmul(.*)",file[i])
+
+            matrix_a, matrix_b = GetElements.two(regex[1])
+            file[i] = replace(file[i],r"numpy.matmul(.*)" => "$matrix_a"*"*"*"$matrix_b")
         end
     end
 end
 
-function translate_matmul(file::Array{String,1})
-    if (occursin(r"numpy.matmul(.*)",file[i]))
-        regex = match(r"numpy.matmul(.*)",file[i])
-
-        matrix_a, matrix_b = GetElements.two(regex[1])
-        file[i] = replace(file[i],r"numpy.matmul(.*)" => "$matrix_a"*"*"*"$matrix_b")
-    end
-end
-
 function translate_matrix_power(file::Array{String,1})
-    if (occursin(r"numpy.linalg.matrix_power(.*)",file[i]))
-        regex = match(r"numpy.linalg.matrix_power(.*)",file[i])
+    for i in 1:length(file)
+        if (occursin(r"numpy.linalg.matrix_power(.*)",file[i]))
+            regex = match(r"numpy.linalg.matrix_power(.*)",file[i])
 
-        matrix, power = GetElements.two(regex[1])
-        file[i] = replace(file[i],r"numpy.linalg.matrix_power(.*)" => "$matrix^$power")
+            matrix, power = GetElements.two(regex[1])
+            file[i] = replace(file[i],r"numpy.linalg.matrix_power(.*)" => "$matrix^$power")
+        end
     end
 end
 

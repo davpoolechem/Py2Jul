@@ -140,7 +140,7 @@ function translate_full(file::Array{String,1})
     end
 end
 
-function translate_empty_like(file::Array{String,1})
+function translate_full_like(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"numpy.full_like(.*)",file[i]))
             regex = match(r"numpy.full_like(.*)",file[i])

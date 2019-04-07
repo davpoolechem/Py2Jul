@@ -25,7 +25,7 @@ function translate_array(file::Array{String,1})
 
             array = GetElements.one(regex[1])
 
-            replace(file[i],r"numpy.array(.*)" => "$array")
+            file[i] = replace(file[i],r"numpy.array(.*)" => "$array")
         end
     end
 end
