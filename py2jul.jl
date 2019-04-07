@@ -36,9 +36,6 @@ function run(filename_py::String)
         file::Array{String,1} = readlines(f_py)
     close(f_py)
 
-    #do basic changes
-    BasicWork.run(file)
-
     #handle control flow constructs
     ControlFlow.run(file)
 
@@ -75,7 +72,10 @@ function run(filename_py::String)
     ModuleRemove.run(file)
 
     #translate classes
-    ClassWork.run(file)
+    #ClassWork.run(file)
+
+    #final basic changes
+    BasicWork.run(file)
 
     #final copy
     f_jl::IOStream = open(filename*".jl","w")

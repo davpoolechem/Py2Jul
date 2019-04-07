@@ -38,17 +38,8 @@ function remove_classes(file::Array{String,1})
     end
 end
 
-#uncomment '#end' annotations
-function uncomment_ends(file::Array{String,1})
-    for i in 1:length(file)
-        file[i] = replace(file[i],"#endfxn" => "end")
-        file[i] = replace(file[i],"#end" => "end")
-    end
-end
-
 @inline function run(file::Array{String,1})
     remove_classes(file)
-    uncomment_ends(file)
 end
 export run
 

@@ -50,11 +50,22 @@ function printing(file::Array{String,1})
     end
 end
 
-#other random fixes
-function misc_work(file::Array{String,1})
+#replace python typecasts with Julia typecasts
+function typecast_fixes(file::Array{String,1})
     for i in 1:length(file)
-        #file[i] = replace(file[i],"int(" => "Int64(")
-        #file[i] = replace(file[i],"float(" => "Float64(")
+        file[i] = replace(file[i],"float(" => "Float64(")
+
+        if (occursin("int(",file[i]) && !occursin("print(",file[i]))
+            file[i] = replace(file[i],"int(" => "Int64(")
+        end
+    end
+end
+
+#uncomment '#end' annotations
+function uncomment_ends(file::Array{String,1})
+    for i in 1:length(file)
+        file[i] = replace(file[i],"#endfxn" => "end")
+        file[i] = replace(file[i],"#end" => "end")
     end
 end
 
@@ -62,7 +73,8 @@ end
     basic_functions(file)
     python_to_julia(file)
     printing(file)
-    misc_work(file)
+    typecast_fixes(file)
+    uncomment_ends(file)
 end
 export run
 

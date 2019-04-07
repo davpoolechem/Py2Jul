@@ -4,6 +4,7 @@ from scipy.linalg import sqrtm
 
 def index(a,b):
     return int(a*(a+1)/2 + b if (a > b) else b*(b+1)/2 + a)
+#endfxn
 
 def twoei(fock, density, nbf, tei, hcore):
     fock = hcore.copy()
@@ -27,9 +28,14 @@ def twoei(fock, density, nbf, tei, hcore):
                     J[i,j] += density[k,l] * eri
                     K[i,k] += density[j,l] * eri
                     #fock[i,j] += density[k,l] * (2*tei[ijkl] - tei[ikjl])
+                #end
+            #end
+        #end
+    #end
 
     fock += 2*J - K
     return fock
+#endfxn
 
 def scf(basis):
     #read in dat file
@@ -49,6 +55,7 @@ def scf(basis):
         j = int(dat[index][6]) - 1
         S[i,j] = float(dat[index][9:28])
         S[j,i] = S[i][j]
+    #end
 
     T = numpy.zeros((7,7))
     for index in range(36,64):
@@ -56,6 +63,7 @@ def scf(basis):
         j = int(dat[index][6]) - 1
         T[i,j] = float(dat[index][9:28])
         T[j,i] = T[i,j]
+    #end
 
     V = numpy.zeros((7,7))
     for index in range(67,95):
@@ -63,7 +71,7 @@ def scf(basis):
         j = int(dat[index][6]) - 1
         V[i,j] = float(dat[index][9:28])
         V[j,i] = V[i,j]
-
+    #end
     H = T+V
 
     #read in two-electron integrals
@@ -84,6 +92,7 @@ def scf(basis):
         ijkl = int(ij*(ij+1)/2 + kl if (ij > kl) else kl*(kl+1)/2 + ij)
 
         tei[ijkl] = float(dat[ind][22:41])
+    #end
 
     #build orthogonalization matrix
     S_eig = numpy.linalg.eigh(S)
@@ -93,6 +102,7 @@ def scf(basis):
     S_eval = numpy.zeros((7,7))
     for i in range(7):
         S_eval[i,i] = S_eval_diag[i]
+    #end
 
     ortho = numpy.zeros((7,7))
     #ortho = S_evec*numpy.linalg.inv((scipy.linalg.sqrtm(S_eval)))*numpy.transpose(S_evec)
@@ -119,6 +129,8 @@ def scf(basis):
         for j in range(i+1):
             density[i,j] = numpy.dot(coeff[i,0:4],coeff[j,0:4])
             density[j,i] = density[i,j]
+        #end
+    #end
 
     #no idea why, but this element is the only element wrong in the above density matrix
     #hack to fix
@@ -133,3 +145,4 @@ def scf(basis):
     fock_a += H
 
     return fock_a
+#endfxn
