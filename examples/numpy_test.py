@@ -1,3 +1,4 @@
 import numpy
 
-print(numpy.array([[1,2],[3,4]]))
+test = numpy.empty(100,100)
+print(test)

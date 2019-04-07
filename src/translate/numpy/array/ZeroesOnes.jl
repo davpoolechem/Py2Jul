@@ -24,8 +24,6 @@ function translate_empty(file::Array{String,1})
             regex::RegexMatch = match(r"numpy.empty(.*)",file[i])
 
             first_dim, second_dim = GetElements.two(regex[1])
-            first_dim = first_dim[2:end]
-            second_dim = first_dim[1:end]
 
             file[i] = replace(file[i],r"numpy.empty(.*)" => "fill(undef,($first_dim,$second_dim))")
         end
@@ -39,7 +37,7 @@ function translate_empty_like(file::Array{String,1})
 
             array = GetElements.one(regex[1])
 
-            file[i] = replace(file[i],r"numpy.empty_like(.*)" => "fill(undef,(size($array)[1],size($array)[2]))")
+            file[i] = replace(file[i],r"numpy.empty_like(.*)" => "fill(undef,size($array)")
         end
     end
 end
@@ -80,8 +78,6 @@ function translate_ones(file::Array{String,1})
             regex::RegexMatch = match(r"numpy.ones(.*)",file[i])
 
             first_dim, second_dim = GetElements.two(regex[1])
-            first_dim = first_dim[2:end]
-            second_dim = first_dim[1:end]
 
             file[i] = replace(file[i],r"numpy.ones(.*)" => "fill(1,($first_dim,$second_dim))")
         end
@@ -106,8 +102,6 @@ function translate_zeros(file::Array{String,1})
             regex::RegexMatch = match(r"numpy.zeros(.*)",file[i])
 
             first_dim, second_dim = GetElements.two(regex[1])
-            first_dim = first_dim[2:end]
-            second_dim = first_dim[1:end]
 
             file[i] = replace(file[i],r"numpy.zeros(.*)" => "fill(0,($first_dim,$second_dim))")
         end
@@ -132,8 +126,6 @@ function translate_full(file::Array{String,1})
             regex::RegexMatch = match(r"numpy.full(.*)",file[i])
 
             first_dim, second_dim, number = GetElements.three(regex[1])
-            first_dim = first_dim[2:end]
-            second_dim = first_dim[1:end]
 
             file[i] = replace(file[i],r"numpy.full(.*)" => "fill($number,($first_dim,$second_dim))")
         end
@@ -146,7 +138,6 @@ function translate_full_like(file::Array{String,1})
             regex = match(r"numpy.full_like(.*)",file[i])
 
             array, number = GetElements.two(regex[1])
-            number = first_dim[1:end]
 
             file[i] = replace(file[i],r"numpy.full_like(.*)" => "fill($number,(size($array)[1],size($array)[2]))")
         end
@@ -154,16 +145,16 @@ function translate_full_like(file::Array{String,1})
 end
 
 @inline function run(file::Array{String,1})
-    translate_empty(file)
     translate_empty_like(file)
+    translate_empty(file)
     translate_eye(file)
     translate_identity(file)
-    translate_ones(file)
     translate_ones_like(file)
-    translate_zeros(file)
+    translate_ones(file)
     translate_zeros_like(file)
-    translate_full(file)
+    translate_zeros(file)
     translate_full_like(file)
+    translate_full(file)
 end
 export run
 
