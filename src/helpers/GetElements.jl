@@ -1,5 +1,17 @@
 module GetElements
 
+function get_elements(regex::Regex, string::String)
+    index = 1
+    numbers = []
+    while (match(regex,string,2*index)[1] != "")
+        push!(numbers,match(regex,string,2*index)[1])
+        index += 1
+    end
+
+    return numbers
+end
+export get_elements
+
 function one(regex::SubString{String})
     first_start::Int64 = 2
     first_end::Int64 = findnext(")",regex,first_start)[1]-1
@@ -8,7 +20,7 @@ function one(regex::SubString{String})
 
     return first_num
 end
-export get_one
+export one
 
 function two(regex::SubString{String})
     first_start::Int64 = 2
@@ -22,7 +34,7 @@ function two(regex::SubString{String})
 
     return (first_num, second_num)
 end
-export get_two
+export two
 
 function three(regex::SubString{String})
     first_start::Int64 = 2
@@ -40,6 +52,6 @@ function three(regex::SubString{String})
 
     return (first_num, second_num, third_num)
 end
-export get_three
+export three
 
 end
