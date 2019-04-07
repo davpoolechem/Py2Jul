@@ -1,8 +1,7 @@
-class Class:
-    def __init__(self):
-        print("Hello, world!")
-    #endfxn
+class Point:
+    x #member
+    y #member
 #endclass
 
-x = Class()
-#x.fxn()
+point = Point(1,2)
+point.x
