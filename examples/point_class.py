@@ -1,6 +1,6 @@
 from math import sqrt
 
-class Point:
+class TwoDimPoint:
     x = 0 #member
     y = 0 #member
 
@@ -15,6 +15,6 @@ class Point:
     #endfxn
 #endclass
 
-point = Point(1,2)
+point = 2DPoint(1,2)
 print(point.x)
 print(point.norm())

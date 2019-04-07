@@ -66,7 +66,9 @@ function extract_functions(file::Array{String,1}, class_name)
 
                 #rename init if function is constructor
                 if(occursin("__init__",ifxn))
-                    ifxn = replace(ifxn,"__init__" => "$class_name"*"Constructor")
+                    ifxn = replace(ifxn,"__init__" => "$class_name"*"_Constructor")
+                else
+                    ifxn = replace(ifxn,"$fxn_name" => "$class_name"*"_"*"$fxn_name")
                 end
                 if(occursin("#endfxn",ifxn))
                     ifxn = replace(ifxn,"#endfxn" => "end")
