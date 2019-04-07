@@ -17,7 +17,7 @@ misc_work = miscallaneous changes
 
 run (exported) = execute all aforementioned functions
 """
-module BasicWork
+module Initialize
 
 #do basic function structure conversion
 function basic_functions(file::Array{String,1})
@@ -55,17 +55,9 @@ function typecast_fixes(file::Array{String,1})
     for i in 1:length(file)
         file[i] = replace(file[i],"float(" => "Float64(")
 
-        if (occursin("int(",file[i]) && !occursin("print(",file[i]))
+        if (occursin("int(",file[i]) && !occursin(r"[\w]int\(",file[i]))
             file[i] = replace(file[i],"int(" => "Int64(")
         end
-    end
-end
-
-#uncomment '#end' annotations
-function uncomment_ends(file::Array{String,1})
-    for i in 1:length(file)
-        file[i] = replace(file[i],"#endfxn" => "end")
-        file[i] = replace(file[i],"#end" => "end")
     end
 end
 
@@ -74,7 +66,6 @@ end
     python_to_julia(file)
     printing(file)
     typecast_fixes(file)
-    uncomment_ends(file)
 end
 export run
 
