@@ -11,7 +11,7 @@ function get_elements(regex::Regex, string::String)
     return numbers
 end
 export get_elements
-
+#=
 function one(regex::SubString{String})
     first_start::Int64 = 2
     first_end::Int64 = findnext(")",regex,first_start)[1]-1
@@ -53,5 +53,5 @@ function three(regex::SubString{String})
     return (first_num, second_num, third_num)
 end
 export three
-
+=#
 end

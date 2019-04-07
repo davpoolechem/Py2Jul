@@ -13,9 +13,10 @@ end
 function translate_pow(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"math.pow(.*)",file[i]))
-            regex = match(r"math.pow(.*)",file[i])
+            numbers = GetElements.get_elements(r"math.pow(.*)",file[i])
 
-            first_num, second_num = GetElements.two(regex[1])
+            first_num = numbers[1]
+            second_num = numbers[2]
             file[i] = replace(file[i],r"numpy.pow(.*)" => "$first_num^$second_num")
         end
     end
@@ -28,7 +29,7 @@ end
     translate_logarithmic(file,"log1p")
     translate_logarithmic(file,"log2")
     translate_logarithmic(file,"log10")
-    #keep pow for now (use ^ operator)
+    translate_pow(file)
     translate_logarithmic(file,"sqrt")
 end
 export run

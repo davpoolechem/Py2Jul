@@ -13,9 +13,9 @@ end
 function translate_degrees(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"math.degrees(.*)",file[i]))
-            regex = match(r"math.degrees(.*)",file[i])
+            numbers = GetElements.get_elements(r"math.degrees(.*)",file[i])
 
-            radians = GetElements.one(regex[1])
+            radians = numbers[1]
             file[i] = replace(file[i],r"numpy.degrees(.*)" => "(360/(2π))*$radians")
         end
     end
@@ -24,9 +24,9 @@ end
 function translate_radians(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"math.radians(.*)",file[i]))
-            regex = match(r"math.radians(.*)",file[i])
+            numbers = GetElements.get_elements(r"math.radians(.*)",file[i])
 
-            degrees = GetElements.one(regex[1])
+            degrees = numbers[1]
             file[i] = replace(file[i],r"numpy.radians(.*)" => "(2π/360)*$degrees")
         end
     end

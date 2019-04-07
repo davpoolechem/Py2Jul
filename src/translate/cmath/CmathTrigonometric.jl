@@ -1,7 +1,5 @@
 module CmathTrigonometric
 
-using GetElements
-
 function translate_trigonometric(file::Array{String,1},fxn::String)
     for i in 1:length(file)
         if (occursin("cmath.$fxn",file[i]))
