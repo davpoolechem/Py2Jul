@@ -13,9 +13,10 @@ end
 function translate_uniform(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"random.uniform(.*)",file[i]))
-            regex = match(r"random.uniform(.*)",file[i])
+            numbers = GetElements.get_elements(r"random.uniform(.*)",file[i])
 
-            first_num, second_num = GetElements.two(regex[1])
+            first_num = numbers[1]
+            second_num = numbers[2]
             file[i] = replace(file[i],r"random.uniform(.*)" => "rand(Distributions.Uniform($first_num,$second_num))")
         end
     end

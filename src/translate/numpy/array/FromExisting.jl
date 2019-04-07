@@ -21,10 +21,9 @@ using GetElements
 function translate_array(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"numpy.array(.*)",file[i]))
-            regex = match(r"numpy.array(.*)",file[i])
+            numbers = GetElements.get_elements(r"numpy.array(.*)",file[i])
 
-            array = GetElements.one(regex[1])
-
+            array = numbers[1]
             file[i] = replace(file[i],r"numpy.array(.*)" => "$array")
         end
     end
