@@ -22,9 +22,11 @@ module Initialize
 #do basic function structure conversion
 function basic_functions(file::Array{String,1})
     for i in 1:length(file)
-        file[i] = replace(file[i],"def" => "function")
+        if(occursin("def",file[i]) && !occursin("undef",file[i]))
+            file[i] = replace(file[i],"def" => "function")
+        end
+
         file[i] = replace(file[i],":" => "")
-        file[i] = replace(file[i],";" => "end")
     end
 end
 

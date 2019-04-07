@@ -20,6 +20,19 @@ using GetElements
 
 function translate_array(file::Array{String,1})
     for i in 1:length(file)
+        if (occursin(r"numpy.array(.*)",file[i]))
+            regex = match(r"numpy.array(.*)",file[i])
+
+            array = GetElements.one(regex[1])
+
+            file[i] = replace(file[i],r"numpy.array(.*)" => "$array")
+        end
+    end
+end
+
+#=
+function translate_array(file::Array{String,1})
+    for i in 1:length(file)
         if (occursin(r"\[.*\],",file[i]))
             file[i] = replace(file[i],"]," => "];")
             file[i] = replace(file[i],"," => " ")
@@ -41,6 +54,7 @@ function translate_array(file::Array{String,1})
         end
     end
 end
+=#
 
 @inline function run(file::Array{String,1})
     translate_array(file)

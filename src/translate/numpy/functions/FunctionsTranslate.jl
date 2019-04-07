@@ -1,9 +1,9 @@
 module FunctionsTranslate
 
-using NumpyFunctions
+using LinalgTranslate
 
 @inline function run(file::Array{String,1})
-    NumpyFunctions.run(file)
+    LinalgTranslate.run(file)
 end
 export run
 
