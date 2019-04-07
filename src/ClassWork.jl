@@ -7,8 +7,8 @@ function remove_classes(file::Array{String,1})
     class_end::Int64 = 0
     for i in 1:length(file)
         if (occursin(r"class (.*)",file[i]))
-            regex_class = match(r"class (.*)",file[i])
-            class_name = regex_class[1]
+            class = GetElements.get_elements(r"class (.*)",file[i])
+            class_name = class[1]
             base_name = ""
 
             class_start = i
@@ -19,9 +19,8 @@ function remove_classes(file::Array{String,1})
 
             #account for single inheritance
             if (occursin(r"class (.*)(\(.*\))",file[i]))
-                regex_inherit = match(r"class (.*)(\(.*\))",file[i])
-
-                class_name = regex_inherit[1]
+                class_inherit = GetElements.get_elements(r"class (.*)(\(.*\))",file[i])
+                class_name= class_inherit[1]
                 base_name = GetElements.one(regex_inherit[2])
             end
 
@@ -65,8 +64,8 @@ function extract_functions(file::Array{String,1}, class_name)
     fxn_index::Int64 = 1
     for i in 1:length(file)
         if (occursin(r"function (.*)",file[i]))
-            regex_fxn = match(r"function (.*)",file[i])
-            fxn_name = regex_fxn[1]
+            fxn = GetElements.get_elements(r"function (.*)",file[i])
+            fxn_name = fxn[1]
 
             push!(member_fxns,[])
             fxn_start::Int64 = i

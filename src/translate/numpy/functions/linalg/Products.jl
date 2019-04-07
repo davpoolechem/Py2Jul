@@ -20,9 +20,10 @@ end
 function translate_matmul(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"numpy.matmul(.*)",file[i]))
-            regex = match(r"numpy.matmul(.*)",file[i])
+            numbers = GetElements.get_elements(r"numpy.matmul(.*)",file[i])
 
-            matrix_a, matrix_b = GetElements.two(regex[1])
+            matrix_a = numbers[1]
+            matrix_b = numbers[2]
             file[i] = replace(file[i],r"numpy.matmul(.*)" => "$matrix_a"*"*"*"$matrix_b")
         end
     end
@@ -31,9 +32,10 @@ end
 function translate_matrix_power(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"numpy.linalg.matrix_power(.*)",file[i]))
-            regex = match(r"numpy.linalg.matrix_power(.*)",file[i])
+            numbers = GetElements.get_elements(r"numpy.linalg.matrix_power(.*)",file[i])
 
-            matrix, power = GetElements.two(regex[1])
+            matrix = numbers[1]
+            power = numbers[2]
             file[i] = replace(file[i],r"numpy.linalg.matrix_power(.*)" => "$matrix^$power")
         end
     end
