@@ -55,7 +55,7 @@ function typecast_fixes(file::Array{String,1})
     for i in 1:length(file)
         file[i] = replace(file[i],"float(" => "Float64(")
 
-        if (occursin("int(",file[i]) && !occursin("print(",file[i]))
+        if (occursin("int(",file[i]) && !occursin(r"[\w]int\(",file[i]))
             file[i] = replace(file[i],"int(" => "Int64(")
         end
     end
