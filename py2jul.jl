@@ -16,7 +16,8 @@ module Py2Jul
 using BasicWork
 using ClassWork
 using ControlFlow
-using ModuleWork
+using ModuleReformat
+using ModuleRemove
 
 using NumpyTranslate
 using ScipyTranslate
@@ -41,34 +42,37 @@ function run(filename_py::String)
     #handle control flow constructs
     ControlFlow.run(file)
 
+    #handle work involving module import reformatting
+    ModuleReformat.run(file)
+
     #translate scientific module constructs to julia constructs
     for i in 1:length(file)
-        if (occursin("import numpy", file[i]))
+        if (occursin("pyimport(\"numpy\")", file[i]))
             NumpyTranslate.run(file)
         end
 
-        if (occursin("import scipy", file[i]))
+        if (occursin("pyimport(\"scipy\")", file[i]))
             ScipyTranslate.run(file)
         end
     end
 
     #translate mathematic module constructs to julia constructs
     for i in 1:length(file)
-        if (occursin("import cmath", file[i]))
+        if (occursin("pyimport(\"cmath\")", file[i]))
             CmathTranslate.run(file)
         end
 
-        if (occursin("import math", file[i]))
+        if (occursin("pyimport(\"math\")", file[i]))
             PyMathTranslate.run(file)
         end
 
-        if (occursin("import random", file[i]))
+        if (occursin("pyimport(\"random\")", file[i]))
             RandomTranslate.run(file)
         end
     end
 
-    #handle work involving module imports
-    ModuleWork.run(file)
+    #handle work involving module import removal
+    ModuleRemove.run(file)
 
     #translate classes
     ClassWork.run(file)
