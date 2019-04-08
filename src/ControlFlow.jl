@@ -25,10 +25,12 @@ using GetElements
 function for_loops(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"range(.*)",file[i]))
+
             range_args = GetElements.get_elements(r"range(.*)",file[i])
-            first = (length(range) == 2) ? 1 : range_args[1]
-            second = (length(range) == 2) ? range_args[2] : range_args[1]
-            third = (length(range) == 3) ? range_args[3] : 1
+            display(range_args)
+            first = (length(range_args) > 1) ? range_args[1] : 1
+            second = (length(range_args) == 2) ? range_args[2] : range_args[1]
+            third = (length(range_args) == 3) ? range_args[3] : 1
 
             file[i] = replace(file[i], r"range(.*)"=>"$first:$third:$second")
         end

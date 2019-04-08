@@ -3,8 +3,10 @@ module GetElements
 function get_elements(regex::Regex, string::String)
     index = 1
     numbers = []
-    while (match(regex,string,2*index)[1] != "")
-        push!(numbers,match(regex,string,2*index)[1])
+
+    regex_string = match(regex,string)[1]
+    while (match(r"([\w]*)",regex_string,2*index)[1] != "")
+        push!(numbers,match(r"([\w|\+|-]*)",regex_string,2*index)[1])
         index += 1
     end
 
