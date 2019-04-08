@@ -5,11 +5,16 @@ function get_elements(regex::Regex, string::String)
     numbers = []
 
     regex_string = match(regex,string)[1]
-    while (match(r"([\w]*)",regex_string,2*index)[1] != "")
-        push!(numbers,match(r"([\w|\+|-]*)",regex_string,2*index)[1])
+    push!(numbers,match(r"\((.*?)[,|\)]",regex_string)[1])
+    while (typeof(match(r",(.*?),",regex_string,3*index)) != Nothing)
+        push!(numbers,match(r",(.*?),",regex_string,3*index)[1])
         index += 1
     end
 
+    last_number = match(r"([^,|^\(]*$)",regex_string)[1]
+    push!(numbers,last_number[1:end-1])
+
+    display(numbers)
     return numbers
 end
 export get_elements

@@ -27,9 +27,8 @@ function for_loops(file::Array{String,1})
         if (occursin(r"range(.*)",file[i]))
 
             range_args = GetElements.get_elements(r"range(.*)",file[i])
-            display(range_args)
             first = (length(range_args) > 1) ? range_args[1] : 1
-            second = (length(range_args) == 2) ? range_args[2] : range_args[1]
+            second = (length(range_args) >= 2) ? range_args[2] : range_args[1]
             third = (length(range_args) == 3) ? range_args[3] : 1
 
             file[i] = replace(file[i], r"range(.*)"=>"$first:$third:$second")

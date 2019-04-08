@@ -91,4 +91,4 @@ end
 
 end
 
-Py2Jul.run("examples/prime.py")
+Py2Jul.run("examples/monte_carlo_pi.py")
