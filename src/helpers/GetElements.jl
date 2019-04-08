@@ -11,8 +11,10 @@ function get_elements(regex::Regex, string::String)
         index += 1
     end
 
-    last_number = match(r"([^,|^\(]*$)",regex_string)[1]
-    push!(numbers,last_number[1:end-1])
+    if (occursin(",",regex_string))
+        last_number = match(r"([^,|^\(]*$)",regex_string)[1]
+        push!(numbers,last_number[1:end-1])
+    end
 
     display(numbers)
     return numbers
