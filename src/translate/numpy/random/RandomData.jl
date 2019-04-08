@@ -14,23 +14,23 @@ translate matrix = translates numpy functions for creation of specialized matric
 
 run (exported) = execute all aforementioned functions
 """
-module FromExisting
+module RandomData
 
 using GetElements
 
-function translate_array(file::Array{String,1})
+function translate_rand(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.array(.*)",file[i]))
-            numbers = GetElements.get_elements(r"numpy.array(.*)",file[i])
+        if (occursin(r"numpy.random.rand(.*,.*)",file[i]))
+            regex = match(r"numpy.random.rand(.*,.*)",file[i])
 
-            array = numbers[1]
-            file[i] = replace(file[i],r"numpy.array(.*)" => "$array")
+            first, second = GetElements.two(regex[1])
+            file[i] = replace(file[i],r"numpy.random.rand(.*,.*)" => "rand($first:$second)")
         end
     end
 end
 
 @inline function run(file::Array{String,1})
-    translate_array(file)
+    translate_rand(file)
 end
 export run
 

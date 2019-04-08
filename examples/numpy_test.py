@@ -1,4 +1,4 @@
-import numpy
+import numpy.random
 
-test = numpy.empty(100,100)
+test = numpy.random.rand(3,2)
 print(test)

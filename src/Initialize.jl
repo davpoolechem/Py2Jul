@@ -26,7 +26,9 @@ function basic_functions(file::Array{String,1})
             file[i] = replace(file[i],"def" => "function")
         end
 
-        file[i] = replace(file[i],":" => "")
+        if(occursin(":",file[i]) && !occursin(r":\w",file[i]))
+            file[i] = replace(file[i],":" => "")
+        end
     end
 end
 
