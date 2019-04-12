@@ -91,4 +91,4 @@ end
 
 end
 
-Py2Jul.run("examples/monte_carlo_pi.py")
+Py2Jul.run("examples/numpy_test.py")

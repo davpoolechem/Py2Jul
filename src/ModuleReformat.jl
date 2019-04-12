@@ -42,12 +42,28 @@ function module_imports(file::Array{String,1})
                 file[i] = replace(file[i],"import $module_original as $module_name" => "import $module_original")
                 file[i] = replace(file[i],"import $module_original" => "$module_name = PyCall.pyimport(\"$module_original\")")
 
-            #handle normal imports
+            #handle "import a" module imports
             elseif(occursin(r"import (.*)",file[i]))
                 regex = match(r"import (.*)",file[i])
                 module_name = regex[1]
 
-                file[i] = replace(file[i],"import $module_name" => "$module_name = PyCall.pyimport(\"$module_name\")")
+                #handle "import a.b" module imports
+                if (occursin(".",module_name))
+                    regex_module = match(r"(\w+)\.(\w+)",module_name)
+
+                    first = regex_module[1]
+                    second = regex_module[2]
+                    file[i] = replace(file[i],"import $module_name" => "$second = PyCall.pyimport(\"$first"*"."*"$second\")")
+
+                    for j in 1:length(file)
+                        if (occursin("$module_name.",file[j]))
+                            file[j] = replace(file[j],"$module_name." => "$second.")
+                        end
+                    end
+                #handle regular module imports
+                else
+                    file[i] = replace(file[i],"import $module_name" => "$module_name = PyCall.pyimport(\"$module_name\")")
+                end
             end
         end
     end
