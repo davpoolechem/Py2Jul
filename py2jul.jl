@@ -48,26 +48,26 @@ function run(filename_py::String)
 
     #translate scientific module constructs to julia constructs
     for i in 1:length(file)
-        if (occursin("pyimport(\"numpy\")", file[i]))
+        if (occursin("pyimport(\"numpy", file[i]))
             NumpyTranslate.run(file)
         end
 
-        if (occursin("pyimport(\"scipy\")", file[i]))
+        if (occursin("pyimport(\"scipy", file[i]))
             ScipyTranslate.run(file)
         end
     end
 
     #translate mathematic module constructs to julia constructs
     for i in 1:length(file)
-        if (occursin("pyimport(\"cmath\")", file[i]))
+        if (occursin("pyimport(\"cmath", file[i]))
             CmathTranslate.run(file)
         end
 
-        if (occursin("pyimport(\"math\")", file[i]))
+        if (occursin("pyimport(\"math", file[i]))
             PyMathTranslate.run(file)
         end
 
-        if (occursin("pyimport(\"random\")", file[i]))
+        if (occursin("pyimport(\"random", file[i]))
             RandomTranslate.run(file)
         end
     end
