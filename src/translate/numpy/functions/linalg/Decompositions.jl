@@ -15,16 +15,22 @@ end
 
 function translate_qr(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.linalg.qr",file[i]))
-            file[i] = replace(file[i],"linalg.qr" => "LinearAlgebra.qr")
+        if (occursin(r"[\w]+\.qr(.*)",file[i]))
+            matrix_temp = GetElements.get_elements(r"[\w]+\.qr(.*)",file[i])
+
+            matrix = matrix_temp[1]
+            file[i] = replace(file[i],r"[\w]+\.qr" => "LinearAlgebra.qr")
         end
     end
 end
 
 function translate_svd(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.linalg.svd",file[i]))
-            file[i] = replace(file[i],"linalg.svd" => "LinearAlgebra.svd")
+        if (occursin(r"[\w]+\.svd(.*)",file[i]))
+            matrix_temp = GetElements.get_elements(r"[\w]+\.svd(.*)",file[i])
+
+            matrix = matrix_temp[1]
+            file[i] = replace(file[i],r"[\w]+\.svd" => "LinearAlgebra.svd")
         end
     end
 end
