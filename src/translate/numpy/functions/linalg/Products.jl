@@ -2,8 +2,11 @@ module Products
 
 function translate_dot(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.dot",file[i]))
-            file[i] = replace(file[i],"numpy.dot" => "LinearAlgebra.dot")
+        if (occursin(r"[\w]+\.dot(.*)",file[i]))
+            matrix_temp = GetElements.get_elements(r"[\w]+\.dot(.*)",file[i])
+
+            matrix = matrix_temp[1]
+            file[i] = replace(file[i],r"[\w]+\.dot" => "LinearAlgebra.dot")
         end
     end
 end
@@ -11,40 +14,46 @@ end
 #note that vdot is translated to dot here
 function translate_vdot(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.vdot",file[i]))
-            file[i] = replace(file[i],"numpy.vdot" => "LinearAlgebra.dot")
+        if (occursin(r"[\w]+\.vdot(.*)",file[i]))
+            matrix_temp = GetElements.get_elements(r"[\w]+\.vdot(.*)",file[i])
+
+            matrix = matrix_temp[1]
+            file[i] = replace(file[i],r"[\w]+\.vdot" => "LinearAlgebra.dot")
         end
     end
 end
 
 function translate_matmul(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.matmul(.*)",file[i]))
-            numbers = GetElements.get_elements(r"numpy.matmul(.*)",file[i])
+        if (occursin(r"[\w]+\.matmul(.*)",file[i]))
+            numbers = GetElements.get_elements(r"[\w]+\.matmul(.*)",file[i])
 
             matrix_a = numbers[1]
             matrix_b = numbers[2]
-            file[i] = replace(file[i],r"numpy.matmul(.*)" => "$matrix_a"*"*"*"$matrix_b")
+            file[i] = replace(file[i],r"[\w]+\.matmul(.*)" => "$matrix_a"*"*"*"$matrix_b")
         end
     end
 end
 
 function translate_matrix_power(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.linalg.matrix_power(.*)",file[i]))
-            numbers = GetElements.get_elements(r"numpy.linalg.matrix_power(.*)",file[i])
+        if (occursin(r"[\w]+\.atrix_power(.*)",file[i]))
+            numbers = GetElements.get_elements(r"[\w]+\.matrix_power(.*)",file[i])
 
             matrix = numbers[1]
             power = numbers[2]
-            file[i] = replace(file[i],r"numpy.linalg.matrix_power(.*)" => "$matrix^$power")
+            file[i] = replace(file[i],r"[\w]+\.matrix_power(.*)" => "$matrix^$power")
         end
     end
 end
 
 function translate_kron(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.kron",file[i]))
-            file[i] = replace(file[i],"numpy.kron" => "LinearAlgebra.kron")
+        if (occursin(r"[\w]+\.kron(.*)",file[i]))
+            matrix_temp = GetElements.get_elements(r"[\w]+\.kron(.*)",file[i])
+
+            matrix = matrix_temp[1]
+            file[i] = replace(file[i],r"[\w]+\.kron" => "LinearAlgebra.dot")
         end
     end
 end

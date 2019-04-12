@@ -20,11 +20,11 @@ using GetElements
 
 function translate_array(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.array(.*)",file[i]))
-            numbers = GetElements.get_elements(r"numpy.array(.*)",file[i])
+        if (occursin(r"[\w]+\.array(.*)",file[i]))
+            numbers = GetElements.get_elements(r"[\w]+\.array(.*)",file[i])
 
             array = numbers[1]
-            file[i] = replace(file[i],r"numpy.array(.*)" => "$array")
+            file[i] = replace(file[i],r"[\w]+\.array(.*)" => "$array")
         end
     end
 end

@@ -1,4 +1,4 @@
 import numpy.random
 
-test = numpy.random.rand(3,2)
+test = numpy.random.cholesky(asd)
 print(test)

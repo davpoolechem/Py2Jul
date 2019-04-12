@@ -20,11 +20,13 @@ using GetElements
 
 function translate_rand(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.random.rand(.*,.*)",file[i]))
-            regex = match(r"numpy.random.rand(.*,.*)",file[i])
+        println(occursin(r"[\w+].rand(.*)",file[i]))
+        if (occursin(r"[\w+]\.rand(.*)",file[i]))
+            numbers = GetElements.get_elements(r"[\w+]\.rand(.*)",file[i])
 
-            first, second = GetElements.two(regex[1])
-            file[i] = replace(file[i],r"numpy.random.rand(.*,.*)" => "rand($first:$second)")
+            first = numbers[1]
+            first = numbers[2]
+            file[i] = replace(file[i],r"[\w+]\.rand\(.*\)" => "rand($first:$second)")
         end
     end
 end
