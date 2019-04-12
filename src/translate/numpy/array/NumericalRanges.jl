@@ -26,7 +26,7 @@ function translate_arange(file::Array{String,1})
             if (length(numbers) == 3)
                 first = parse(Float64,numbers[1])
                 second = parse(Float64,first)
-                second_temp = second
+                second_temp = numbers[2]
                 third_num = parse(Float64,numbers[3])
 
                 while (second < parse(Float64,second_temp)) second += third_num end
@@ -36,15 +36,15 @@ function translate_arange(file::Array{String,1})
             elseif (length(numbers) == 2)
                 first = parse(Float64,numbers[1])
                 second = parse(Float64,first)
-                second_temp = second
+                second_temp = numbers[2]
 
                 while (second < parse(Float64,second_temp)) second += 1 end
                 if (second == parse(Float64,second_temp)) second -= 1 end
 
                 file[i] = replace(file[i], r"[\w]+\.arange(.*)"=>"collect($first"*":"*"$second)")
             elseif (length(numbers) == 1)
-                second = parse(Float64,numbers[1])
-                second_temp = second
+                second = 1
+                second_temp = numbers[1]
 
                 while (second < parse(Float64,second_temp)) second += 1 end
                 if (second == parse(Float64,second_temp)) second -= 1 end
@@ -63,6 +63,7 @@ function translate_linspace(file::Array{String,1})
             first_num = 0
             second_num = 0
             num = 50
+
             if (length(numbers) == 3)
                 first_num = parse(Float64,numbers[1])
                 second_num = parse(Float64,numbers[2])
@@ -71,8 +72,8 @@ function translate_linspace(file::Array{String,1})
                 first_num = parse(Float64,numbers[1])
                 second_num = parse(Float64,numbers[2])
             end
-            step = (second_num-first_num)/(num-1)
 
+            step = (second_num-first_num)/(num-1)
             file[i] = replace(file[i], r"[\w]+\.linspace(.*)"=>"collect($first:$step:$second)")
         end
     end
