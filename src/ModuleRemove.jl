@@ -16,8 +16,8 @@ function add_linearalgebra(file::Array{String,1})
     need_LinearAlgebra::Bool = false
     for i in 1:length(file)
         need_LinearAlgebra = need_LinearAlgebra || occursin("LinearAlgebra.",file[i])
-        need_LinearAlgebra = need_LinearAlgebra || occursin(r"(.*) = PyCall.pyimport(\"numpy\")",file[i])
-        need_LinearAlgebra = need_LinearAlgebra || occursin(r"(.*) = PyCall.pyimport(\"scipy\")",file[i])
+        need_LinearAlgebra = need_LinearAlgebra || occursin(r"(.*) = PyCall.pyimport\(\"numpy",file[i])
+        need_LinearAlgebra = need_LinearAlgebra || occursin(r"(.*) = PyCall.pyimport\(\"scipy",file[i])
     end
 
     if (need_LinearAlgebra)
@@ -81,17 +81,28 @@ end
 
 Remove any unnecessary Python modules from the list.
 """
-function remove_module(file::Array{String,1}, module_name::String)
+function remove_module(file::Array{String,1})
     need_module::Bool = false
 
+    module_name = ""
+    module_alias = ""
     for i in 1:length(file)
-        need_module = need_module || occursin("$module_name"*".",file[i])
+        if (occursin(r"(.*) = PyCall.pyimport\((.*)\)", file[i]))
+            regex = match(r"(.*) = PyCall.pyimport\((.*)\)", file[i])
+
+            module_alias = regex[1]
+            module_name = regex[2]
+            #file[i] = replace(file[i],"$module_name = PyCall.pyimport($module_string)" => "")
+        end
     end
 
-    module_string = "\"$module_name\""
     for i in 1:length(file)
-        if (!need_module && occursin("$module_name = PyCall.pyimport($module_string)", file[i]))
-            file[i] = replace(file[i],"$module_name = PyCall.pyimport($module_string)" => "")
+        need_module = need_module || occursin("$module_alias"*".",file[i])
+    end
+
+    for i in 1:length(file)
+        if (!need_module && occursin("$module_alias = PyCall.pyimport($module_name)", file[i]))
+            file[i] = replace(file[i],"$module_alias = PyCall.pyimport($module_name)" => "")
         end
     end
 end
@@ -106,11 +117,7 @@ Execute all functions in the ModuleWork module.
     add_specialfunctions(file)
     add_distributions(file)
 
-    remove_module(file,"numpy")
-    remove_module(file,"scipy")
-    remove_module(file,"cmath")
-    remove_module(file,"math")
-    remove_module(file,"random")
+    remove_module(file)
 
     add_pycall(file)
 end

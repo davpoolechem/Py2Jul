@@ -12,7 +12,7 @@ function translate_dot(file::Array{String,1})
 end
 
 #note that vdot is translated to dot here
-function translate_dot(file::Array{String,1})
+function translate_vdot(file::Array{String,1})
     for i in 1:length(file)
         if (occursin(r"[\w]+\.vdot(.*)",file[i]))
             matrix_temp = GetElements.get_elements(r"[\w]+\.vdot(.*)",file[i])

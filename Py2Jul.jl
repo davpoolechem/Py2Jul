@@ -27,7 +27,7 @@ using PyMathTranslate
 using CmathTranslate
 using RandomTranslate
 
-function run(filename_py::String)
+function translate(filename_py::String)
     #get simple filename for later use
     filename_regex = match(r"(.*).py",filename_py)
     filename = filename_regex[1]
@@ -88,7 +88,8 @@ function run(filename_py::String)
         end
     close(f_jl)
 end
+export translate
 
 end
 
-Py2Jul.run("examples/numpy_test.py")
+#Py2Jul.translate("examples/prime.jl")
