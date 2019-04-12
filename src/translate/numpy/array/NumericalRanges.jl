@@ -20,64 +20,60 @@ using GetElements
 
 function translate_arange(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"[\w]+\.arange(.*,.*,.*)",file[i]))
-            regex = match(r"[\w]+\.arange(.*,.*,.*)",file[i])
-            first, second_temp, third = GetElements.three(regex[1])
+        if (occursin(r"[\w]+\.arange(.*)",file[i]))
+            numbers = GetElements.get_elements(r"[\w]+\.arange(.*)",file[i])
 
-            second = parse(Float64,first)
-            third_num = parse(Float64,third)
-            while (second < parse(Float64,second_temp)) second += third_num end
-            if (second == parse(Float64,second_temp)) second -= third_num end
+            if (length(numbers) == 3)
+                first = parse(Float64,numbers[1])
+                second = parse(Float64,first)
+                second_temp = second
+                third_num = parse(Float64,numbers[3])
 
-            file[i] = replace(file[i], r"[\w]+\.arange(.*,.*,.*)"=>"collect($first"*":"*"$third"*":"*"$second)")
-        elseif (occursin(r"[\w]+\.arange(.*,.*)",file[i]))
-            regex = match(r"[\w]+\.arange(.*,.*)",file[i])
-            first, second_temp = GetElements.two(regex[1])
+                while (second < parse(Float64,second_temp)) second += third_num end
+                if (second == parse(Float64,second_temp)) second -= third_num end
 
-            second = parse(Float64,first)
-            while (second < parse(Float64,second_temp)) second += 1 end
-            if (second == parse(Float64,second_temp)) second -= 1 end
+                file[i] = replace(file[i], r"[\w]+\.arange(.*)"=>"collect($first"*":"*"$third"*":"*"$second)")
+            elseif (length(numbers) == 2)
+                first = parse(Float64,numbers[1])
+                second = parse(Float64,first)
+                second_temp = second
 
-            file[i] = replace(file[i], r"[\w]+\.arange(.*,.*)"=>"collect($first"*":"*"$second)")
-        elseif (occursin(r"[\w]+\.arange(.*)",file[i]))
-            regex = match(r"[\w]+\.arange(.*)",file[i])
-            second_temp = GetElements.one(regex[1])
+                while (second < parse(Float64,second_temp)) second += 1 end
+                if (second == parse(Float64,second_temp)) second -= 1 end
 
-            second = 0
-            while (second < parse(Float64,second_temp)) second += 1 end
-            if (second == parse(Float64,second_temp)) second -= 1 end
+                file[i] = replace(file[i], r"[\w]+\.arange(.*)"=>"collect($first"*":"*"$second)")
+            elseif (length(numbers) == 1)
+                second = parse(Float64,numbers[1])
+                second_temp = second
 
-            file[i] = replace(file[i], r"[\w]+\.arange(.*)"=>"collect(0"*":"*"$second)")
+                while (second < parse(Float64,second_temp)) second += 1 end
+                if (second == parse(Float64,second_temp)) second -= 1 end
+
+                file[i] = replace(file[i], r"[\w]+\.arange(.*)"=>"collect(0"*":"*"$second)")
+            end
         end
     end
 end
 
 function translate_linspace(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"[\w]+\.linspace(.*,.*,.*)",file[i]))
-            regex = match(r"[\w]+\.linspace(.*,.*,.*)",file[i])
-            first, second, num_string = GetElements.three(regex[1])
+        if (occursin(r"[\w]+\.linspace(.*)",file[i]))
+            numbers = GetElements.get_elements(r"[\w]+\.linspace(.*)",file[i])
 
-            first_num = parse(Float64,first)
-            second_num = parse(Float64,second)
-
-            regex_num = match(r"num=(.*)\)",file[i])
-            num = parse(Float64,regex_num[1])
-
-            step = (second_num-first_num)/(num-1)
-
-            file[i] = replace(file[i], r"[\w]+\.linspace(.*,.*)"=>"collect($first:$step:$second)")
-        elseif (occursin(r"[\w]+\.linspace(.*,.*)",file[i]))
-            regex = match(r"[\w]+\.linspace(.*,.*)",file[i])
-            first, second = GetElements.two(regex[1])
-
-            first_num = parse(Float64,first)
-            second_num = parse(Float64,second)
+            first_num = 0
+            second_num = 0
             num = 50
-
+            if (length(numbers) == 3)
+                first_num = parse(Float64,numbers[1])
+                second_num = parse(Float64,numbers[2])
+                num = parse(Float64,numbers[3])
+            elseif (length(numbers) == 2)
+                first_num = parse(Float64,numbers[1])
+                second_num = parse(Float64,numbers[2])
+            end
             step = (second_num-first_num)/(num-1)
 
-            file[i] = replace(file[i], r"[\w]+\.linspace(.*,.*)"=>"collect($first:$step:$second)")
+            file[i] = replace(file[i], r"[\w]+\.linspace(.*)"=>"collect($first:$step:$second)")
         end
     end
 end
