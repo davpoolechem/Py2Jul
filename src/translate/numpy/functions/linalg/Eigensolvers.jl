@@ -2,16 +2,16 @@ module Eigensolvers
 
 function translate_eig(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.linalg.eig",file[i]))
-            file[i] = replace(file[i],"numpy.linalg.eig" => "eigvecs")
+        if (occursin(r"[\w]+\.eig",file[i]))
+            file[i] = replace(file[i],r"[\w]+\.eig" => "eigvecs")
         end
     end
 end
 
 function translate_eigh(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.linalg.eigh\((.*)\)",file[i]))
-            matrix = match(r"numpy.linalg.eigh\((.*)\)",file[i])[1]
+        if (occursin(r"[\w]+\.eigh\((.*)\)",file[i]))
+            matrix = match(r"[\w]+\.eigh\((.*)\)",file[i])[1]
             file[i] = replace(file[i],"numpy.linalg.eigh" => "eigvecs(LinearAlgebra.Symmetric($matrix))")
         end
     end
@@ -19,17 +19,17 @@ end
 
 function translate_eigvals(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin("numpy.linalg.eigvals",file[i]))
-            file[i] = replace(file[i],"numpy.linalg.eigvals" => "eigvals")
+        if (occursin(r"[\w]+\.eigvals",file[i]))
+            file[i] = replace(file[i],r"[\w]+\.eigvals" => "eigvals")
         end
     end
 end
 
 function translate_eigvalsh(file::Array{String,1})
     for i in 1:length(file)
-        if (occursin(r"numpy.linalg.eigvalsh\((.*)\)",file[i]))
-            matrix = match(r"numpy.linalg.eigvalsh\((.*)\)",file[i])[1]
-            file[i] = replace(file[i],"numpy.linalg.eigvalsh" => "eigvals(LinearAlgebra.Symmetric($matrix))")
+        if (occursin(r"[\w]+\.eigvalsh\((.*)\)",file[i]))
+            matrix = match(r"[\w]+\.eigvalsh\((.*)\)",file[i])[1]
+            file[i] = replace(file[i],r"[\w]+\.eigvalsh" => "eigvals(LinearAlgebra.Symmetric($matrix))")
         end
     end
 end

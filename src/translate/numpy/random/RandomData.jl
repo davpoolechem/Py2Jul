@@ -20,7 +20,6 @@ using GetElements
 
 function translate_rand(file::Array{String,1})
     for i in 1:length(file)
-        println(occursin(r"[\w+].rand(.*)",file[i]))
         if (occursin(r"[\w+]\.rand(.*)",file[i]))
             numbers = GetElements.get_elements(r"[\w+]\.rand(.*)",file[i])
 

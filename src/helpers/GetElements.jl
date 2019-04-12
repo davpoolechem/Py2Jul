@@ -16,7 +16,6 @@ function get_elements(regex::Regex, string::String)
         push!(numbers,last_number[1:end-1])
     end
 
-    display(numbers)
     return numbers
 end
 export get_elements
