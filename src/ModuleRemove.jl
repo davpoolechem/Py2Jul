@@ -93,16 +93,16 @@ function remove_module(file::Array{String,1})
             module_alias = regex[1]
             module_name = regex[2]
             #file[i] = replace(file[i],"$module_name = PyCall.pyimport($module_string)" => "")
-        end
-    end
 
-    for i in 1:length(file)
-        need_module = need_module || occursin("$module_alias"*".",file[i])
-    end
+            for j in 1:length(file)
+                need_module = need_module || occursin("$module_alias"*".",file[j])
+            end
 
-    for i in 1:length(file)
-        if (!need_module && occursin("$module_alias = PyCall.pyimport($module_name)", file[i]))
-            file[i] = replace(file[i],"$module_alias = PyCall.pyimport($module_name)" => "")
+            for j in 1:length(file)
+                if (!need_module && occursin("$module_alias = PyCall.pyimport($module_name)", file[j]))
+                    file[j] = replace(file[j],"$module_alias = PyCall.pyimport($module_name)" => "")
+                end
+            end
         end
     end
 end
