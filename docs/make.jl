@@ -1,7 +1,6 @@
-using Documenter, Py2Jul, ModuleWork
+using Documenter, Py2Jul
 
 makedocs(
     sitename="Py2Jul Documentation",
-    modules = [Py2Jul,
-               ModuleWork],
+    modules = [Py2Jul],
 )
