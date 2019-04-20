@@ -1,6 +1,7 @@
 module ClassWork
 
-using GetElements
+include("helpers/GetElements.jl")
+using .GetElements
 
 function remove_classes(file::Array{String,1})
     class_start::Int64 = 0

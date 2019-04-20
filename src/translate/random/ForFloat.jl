@@ -1,6 +1,7 @@
 module ForFloat
 
-using GetElements
+include("../../helpers/GetElements.jl")
+using .GetElements
 
 function translate_random(file::Array{String,1})
     for i in 1:length(file)

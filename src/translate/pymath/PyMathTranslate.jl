@@ -1,10 +1,16 @@
 module PyMathTranslate
 
-using PyMathConstants
-using PyMathLogarithmic
-using PyMathSpecial
-using PyMathTheoretic
-using PyMathTrigonometric
+include("PyMathConstants.jl")
+include("PyMathLogarithmic.jl")
+include("PyMathSpecial.jl")
+include("PyMathTheoretic.jl")
+include("PyMathTrigonometric.jl")
+
+using .PyMathConstants
+using .PyMathLogarithmic
+using .PyMathSpecial
+using .PyMathTheoretic
+using .PyMathTrigonometric
 
 @inline function run(file::Array{String,1})
     PyMathConstants.run(file)

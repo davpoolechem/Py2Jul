@@ -16,7 +16,8 @@ run (exported) = execute all aforementioned functions
 """
 module RandomData
 
-using GetElements
+include("../../../helpers/GetElements.jl")
+using .GetElements
 
 function translate_rand(file::Array{String,1})
     for i in 1:length(file)

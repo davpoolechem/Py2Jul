@@ -6,19 +6,33 @@ Contains core py2jul algorithm
 """
 module Py2Jul
 
-using Initialize
-using Finalize
-using ClassWork
-using ControlFlow
-using ModuleReformat
-using ModuleRemove
+include("Initialize.jl")
+include("Finalize.jl")
+include("ClassWork.jl")
+include("ControlFlow.jl")
+include("ModuleReformat.jl")
+include("ModuleRemove.jl")
 
-using NumpyTranslate
-using ScipyTranslate
+include("translate/numpy/NumpyTranslate.jl")
+include("translate/scipy/ScipyTranslate.jl")
 
-using PyMathTranslate
-using CmathTranslate
-using RandomTranslate
+include("translate/pymath/PyMathTranslate.jl")
+include("translate/cmath/CmathTranslate.jl")
+include("translate/random/RandomTranslate.jl")
+
+using .Initialize
+using .Finalize
+using .ClassWork
+using .ControlFlow
+using .ModuleReformat
+using .ModuleRemove
+
+using .NumpyTranslate
+using .ScipyTranslate
+
+using .PyMathTranslate
+using .CmathTranslate
+using .RandomTranslate
 
 function translate(filename_py::String)
     #get simple filename for later use
@@ -85,4 +99,4 @@ export translate
 
 end
 
-#Py2Jul.translate("examples/prime.jl")
+Py2Jul.translate("examples/prime.py")

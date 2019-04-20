@@ -1,9 +1,14 @@
 module CmathTranslate
 
-using CmathConstants
-using CmathLogarithmic
-using CmathTheoretic
-using CmathTrigonometric
+include("CmathConstants.jl")
+include("CmathLogarithmic.jl")
+include("CmathTheoretic.jl")
+include("CmathTrigonometric.jl")
+
+using .CmathConstants
+using .CmathLogarithmic
+using .CmathTheoretic
+using .CmathTrigonometric
 
 @inline function run(file::Array{String,1})
     CmathConstants.run(file)

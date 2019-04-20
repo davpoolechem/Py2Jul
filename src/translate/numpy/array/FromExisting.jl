@@ -16,7 +16,8 @@ run (exported) = execute all aforementioned functions
 """
 module FromExisting
 
-using GetElements
+include("../../../helpers/GetElements.jl")
+using .GetElements
 
 function translate_array(file::Array{String,1})
     for i in 1:length(file)

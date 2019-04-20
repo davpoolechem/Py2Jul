@@ -16,7 +16,8 @@ run (exported) = execute all aforementioned functions
 """
 module ZeroesOnes
 
-using GetElements
+include("../../../helpers/GetElements.jl")
+using .GetElements
 
 function translate_empty(file::Array{String,1})
     for i in 1:length(file)

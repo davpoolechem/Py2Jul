@@ -1,6 +1,7 @@
 module PyMathTrigonometric
 
-using GetElements
+include("../../helpers/GetElements.jl")
+using .GetElements
 
 function translate_trigonometric(file::Array{String,1},fxn::String)
     for i in 1:length(file)

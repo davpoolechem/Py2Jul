@@ -19,7 +19,8 @@ run (exported) = execute all aforementioned functions
 """
 module ControlFlow
 
-using GetElements
+include("helpers/GetElements.jl")
+using .GetElements
 
 #fix up issues with for loops
 function for_loops(file::Array{String,1})
